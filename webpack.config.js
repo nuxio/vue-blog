@@ -76,6 +76,7 @@ module.exports = {
 };
 
 if(process.env.NODE_ENV === 'production') {
+    module.exports.output.filename = '[name].[chunkhash:8].js';
     module.exports.devtool = '#source-map';
     module.exports.plugins = (module.exports.plugins || []).concat([
         // 用于定义的插件，为会经过打包的文件中引用到process.env.NODE_ENV 的地方，替换成"production"

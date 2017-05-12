@@ -1,0 +1,3 @@
+// post
+export const REQUEST_POST_LIST = 'REQUEST_POST_LIST';
+export const RECEIVE_POST_LIST = 'REQUEST_POST_LIST';

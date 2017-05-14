@@ -1,4 +1,6 @@
 import { REQUEST_POST_LIST, RECEIVE_POST_LIST } from '../mutation-types';
+import { URL_GET_POST_LIST } from '../api';
+import {get as GET} from '../../util/fetch';
 
 export default {
     state: {
@@ -20,9 +22,13 @@ export default {
     actions: {
         requestPostList({commit}) {
             commit({type: REQUEST_POST_LIST});
-        },
-        receivePostList({commit}, data) {
-            commit({type: RECEIVE_POST_LIST, list: data.list});
+            GET(URL_GET_POST_LIST).then(json => {
+                if(json.msg === 'ok') {
+                    commit({type: RECEIVE_POST_LIST, list: json.list});
+                } else {
+
+                }
+            });
         }
     }
 }

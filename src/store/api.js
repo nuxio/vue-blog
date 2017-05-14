@@ -1,0 +1,1 @@
+export const URL_GET_POST_LIST = 'http://localhost:3000/blogs';

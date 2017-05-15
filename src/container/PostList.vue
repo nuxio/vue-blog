@@ -6,8 +6,8 @@
         <ul v-if="!loading && list.length">
             <post-list-item 
                 v-for="item in list" 
-                :key="item.id" 
-                :id="item.id"
+                :key="item._id" 
+                :id="item._id"
                 :title="item.title"
                 :author="item.author"
                 :create-at="item.create_at"
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from 'vuex';
+    import { mapState, mapActions, mapGetters } from 'vuex';
     import PostListItem from '../component/PostListItem.vue';
 
     export default {
@@ -27,13 +27,15 @@
         },
         computed: {
             ...mapState({
-                list: state => state.post.list,
                 loading: state => state.post.loading
             }),
+            ...mapGetters(['list'])
+        },
+        methods: {
             ...mapActions(['requestPostList'])
         },
         mounted() {
-            this.requestPostList();
+            this.requestPostList(1);
         }
     }
 </script>

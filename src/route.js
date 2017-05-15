@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 
 import Home from './container/Home.vue';
 import PostList from './container/PostList.vue';
+import PostDetail from './container/PostDetail.vue';
 import User from './container/User.vue';
 import Login from './container/Login.vue';
 import Register from './container/Register.vue';
@@ -17,7 +18,8 @@ const routes = [
         children: [
             { path: '', component: PostList },
             { path: '/login', component: Login },
-            { path: '/register', component: Register }
+            { path: '/register', component: Register },
+            { path: '/post/:post_id', component: PostDetail }
         ]
     }
 ];

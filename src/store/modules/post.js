@@ -1,33 +1,80 @@
-import { REQUEST_POST_LIST, RECEIVE_POST_LIST } from '../mutation-types';
-import { URL_GET_POST_LIST } from '../api';
+import { 
+    REQUEST_POST_LIST, 
+    RECEIVE_POST_LIST,
+    REQUEST_POST_DETAIL,
+    RECEIVE_POST_DETAIL 
+} from '../mutation-types';
+import { URL_GET_POST_LIST, URL_GET_POST_DETAIL } from '../api';
 import {get as GET} from '../../util/fetch';
 
 export default {
     state: {
-        list: [{id: '123', title: 'xxxx', author: 'wuqiang', create_at: '2017-5-12 16:46:19'}],
-        loading: false
+        list_map: {
+            '1': []
+        },
+        total_num: 0,
+        loading: false,
+        page: 1,
+        limit: 10,
+        id_map: { loading: false }
     },
     mutations: {
-        [REQUEST_POST_LIST] (state) {
+        [REQUEST_POST_LIST] (state, payload) {
+            state.page = payload.page;
             state.loading = true;
         },
         [RECEIVE_POST_LIST] (state, payload) {
-            state.list = payload.list;
+            state.list_map[payload.page] = payload.list;
+            state.total_num = payload.total_num;
             state.loading = false;
+        },
+        [REQUEST_POST_DETAIL] (state, payload) {
+            state.id_map[payload.id] = {};
+            state.id_map.loading = true;
+        },
+        [RECEIVE_POST_DETAIL] (state, payload) {
+            state.id_map.loading = false;
+            state.id_map[payload.post._id] = payload.post;
         }
     },
     getters: {
-
+        list(state) {
+            let page = state.page;
+            return state.list_map[page] || [];
+        },
+        total_page(state) {
+            let total_num = state.total_num,
+                limit = state.limit;
+            return parseInt(total_num / limit, 10);
+        }
     },
     actions: {
-        requestPostList({commit}) {
-            commit({type: REQUEST_POST_LIST});
-            GET(URL_GET_POST_LIST).then(json => {
+        /**
+         * action接收一个context对象，与store本体一致
+         */
+        requestPostList({commit, state}, page) {
+            if(state.list_map[page].length) {
+                return false;
+            }
+            commit({type: REQUEST_POST_LIST, page});
+            GET(URL_GET_POST_LIST, {page, limit: state.limit})
+            .then(json => {
                 if(json.msg === 'ok') {
-                    commit({type: RECEIVE_POST_LIST, list: json.list});
+                    commit({type: RECEIVE_POST_LIST, list: json.blogs, page: json.page, total_num: json.total_num});
                 } else {
-
+                    commit({type: RECEIVE_POST_LIST, list: []});
                 }
+            });
+        },
+        requestPostDetail({commit, state}, id) {
+            if(state.id_map[id]) {
+                return false;
+            }
+            commit({type: REQUEST_POST_DETAIL, id});
+            GET(URL_GET_POST_DETAIL + id)
+            .then(json => {
+                let post = json.msg === 'ok' ? json.blog : {msg: json.msg};
+                commit({type: RECEIVE_POST_DETAIL, post});
             });
         }
     }

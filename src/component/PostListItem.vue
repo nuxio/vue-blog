@@ -1,6 +1,6 @@
 <template>
     <li>
-        <h3><router-link :to="`/blog/${id}`">{{title}}</router-link></h3>
+        <h3><router-link :to="`/post/${id}`">{{title}}</router-link></h3>
         <p>Create by:{{author}}, create at: {{create_time}}</p>
     </li>
 </template>
@@ -37,7 +37,7 @@
             };
         },
         mounted() {
-            this.create_time = moment(this.createAt).fromNow();
+            this.create_time = moment(parseInt(this.createAt, 10)).fromNow();
         }
     }
 </script>

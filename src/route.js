@@ -7,6 +7,7 @@ import PostDetail from './container/PostDetail.vue';
 import User from './container/User.vue';
 import Login from './container/Login.vue';
 import Register from './container/Register.vue';
+import Create from './container/Create.vue';
 
 Vue.use(VueRouter);
 
@@ -19,6 +20,7 @@ const routes = [
             { path: '', component: PostList },
             { path: '/login', component: Login },
             { path: '/register', component: Register },
+            { path: '/create', component: Create },
             { path: '/post/:post_id', component: PostDetail }
         ]
     }

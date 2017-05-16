@@ -1,3 +1,7 @@
+// user
+export const USER_LOGIN = 'USER_LOGIN';
+export const USER_LOGOUT = 'USER_LOGOUT';
+
 // post
 export const REQUEST_POST_LIST = 'REQUEST_POST_LIST';
 export const RECEIVE_POST_LIST = 'RECEIVE_POST_LIST';

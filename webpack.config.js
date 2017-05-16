@@ -43,7 +43,7 @@ module.exports = {
             'vue$': 'vue/dist/vue.esm.js'
         }
     },
-    // devtool: '#eval-source-map',
+    devtool: '#eval-source-map',
     devServer: {
         // inline和hot这两个参数，只写在这里会报错 [HMR] Hot Module Replacement is disabled.
         // 是因为没有加 new webpack.HotModuleReplacementPlugin()这个plugin

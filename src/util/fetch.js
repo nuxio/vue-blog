@@ -38,8 +38,9 @@ export const proxy = (o) => {
     // data._csrf = document.querySelector('meta[name="token"]').content;
     let parmas_string = ObjectToParamsString(data);
     let options = {
-        credentials: o.credentials || 'same-origin',
-        method: method
+        // credentials: o.credentials || 'same-origin', // 携带cookie
+        credentials: 'include', // 开发
+        method
     };
     // 目前只用到GET和POST，剩下的有时间再研究研究
     if(method === 'GET') {
@@ -59,15 +60,15 @@ export const proxy = (o) => {
 export const get = (url, data) => {
     return proxy({
         method: 'GET',
-        url: url,
-        data: data
+        url,
+        data
     });
 }
 
 export const post = (url, data) => {
     return proxy({
         method: 'POST',
-        url: url,
-        data: data
+        url,
+        data
     });
 }

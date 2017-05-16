@@ -4,7 +4,7 @@
         <p v-if="!post.loading && post.msg">{{post.msg}}</p>
         <div v-else="!post.loading">
             <h2>{{post.title}}</h2>
-            <div>{{post.content}}</div>
+            <div v-html="post.content"></div>
         </div>
         <div>
             comments: <span v-if="comments_loading">Loading...</span>

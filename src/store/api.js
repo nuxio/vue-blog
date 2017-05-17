@@ -14,3 +14,5 @@ export const URL_BLOG_VOTE = 'http://localhost:3000/blog/:post_id/up';
 // comment
 export const URL_GET_COMMENT_LIST = 'http://localhost:3000/:post_id/comments';
 export const URL_SUBMIT_COMMENT = 'http://localhost:3000/:post_id/comment';
+export const URL_COMMENT_VOTE = 'http://localhost:3000/comment/:comment_id/up';
+export const URL_COMMENT_DELETE = 'http://localhost:3000/comment/delete';

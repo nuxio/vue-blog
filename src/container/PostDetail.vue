@@ -5,7 +5,7 @@
         <div v-else="!post.loading">
             <h2>{{post.title}}</h2>
             <p v-if="is_login">
-                <a href="javascript:;" @click="vote">点赞({{post.up}})</a>
+                <a href="javascript:;" @click="vote">{{is_voted ? '取消点赞' : '点赞'}}({{post.up}})</a>
             </p>
             <div v-html="post.content"></div>
         </div>
@@ -37,7 +37,18 @@
                 },
                 is_login: state => state.user.is_login,
                 user_info: state => state.user.user_info
-            })
+            }),
+            is_voted() {
+                let index = -1;
+                let length = this.post.ups ? this.post.ups.length : 0;
+                for(let i = 0; i < length; i++) {
+                    if(this.post.ups[i].username === this.user_info.username) {
+                        index = i;
+                        break;
+                    }
+                }
+                return index !== -1;
+            }
         },
         methods: {
             ...mapActions(['requestPostDetail']),

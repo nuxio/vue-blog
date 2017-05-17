@@ -12,3 +12,6 @@ export const POST_VOTE_DOWN = 'POST_VOTE_DOWN';
 
 // comment
 export const RECEIVE_COMMENT_LIST = 'RECEIVE_COMMENT_LIST';
+export const COMMENT_VOTE_UP = 'COMMENT_VOTE_UP';
+export const COMMENT_VOTE_DOWN = 'COMMENT_VOTE_DOWN';
+export const COMMENT_DELETE = 'COMMENT_DELETE';

@@ -53,7 +53,8 @@ module.exports = {
         // 所有请求都用Index.html响应
         historyApiFallback: true,
         // 不显示编译信息，只显示错误
-        noInfo: true
+        noInfo: true,
+        disableHostCheck: true
     },
     plugins: [
         // 抽离css到单独的文件

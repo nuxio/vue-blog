@@ -2,10 +2,12 @@ import {
     REQUEST_POST_LIST, 
     RECEIVE_POST_LIST,
     REQUEST_POST_DETAIL,
-    RECEIVE_POST_DETAIL 
+    RECEIVE_POST_DETAIL,
+    POST_VOTE_UP,
+    POST_VOTE_DOWN
 } from '../mutation-types';
 import { URL_GET_POST_LIST, URL_GET_POST_DETAIL } from '../api';
-import {get as GET} from '../../util/fetch';
+import { get as GET } from '../../util/fetch';
 
 export default {
     state: {
@@ -16,7 +18,8 @@ export default {
         loading: false,
         page: 1,
         limit: 10,
-        id_map: { loading: false }
+        id_map: { loading: false },
+        vote_time: 0 // 西八
     },
     mutations: {
         [REQUEST_POST_LIST] (state, payload) {
@@ -35,6 +38,16 @@ export default {
         [RECEIVE_POST_DETAIL] (state, payload) {
             state.id_map.loading = false;
             state.id_map[payload.post._id] = payload.post;
+        },
+        [POST_VOTE_UP] (state, payload) {
+            state.id_map[payload.post_id].ups.push(payload.uper);
+            state.id_map[payload.post_id].up++;
+            state.vote_time++;
+        },
+        [POST_VOTE_DOWN] (state, payload) {
+            state.id_map[payload.post_id].ups = state.id_map[payload.post_id].ups.filter(u => u.username !== payload.uper.username);
+            state.id_map[payload.post_id].up--;
+            state.vote_time++;
         }
     },
     getters: {

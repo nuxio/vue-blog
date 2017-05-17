@@ -7,6 +7,7 @@
 
 <script>
     import moment from 'moment';
+    import { mapState } from 'vuex';
 
     export default {
         name: 'post-list-item',

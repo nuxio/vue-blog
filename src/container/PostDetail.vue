@@ -4,44 +4,71 @@
         <p v-if="!post.loading && post.msg">{{post.msg}}</p>
         <div v-else="!post.loading">
             <h2>{{post.title}}</h2>
+            <p v-if="is_login">
+                <a href="javascript:;" @click="vote">点赞({{post.up}})</a>
+            </p>
             <div v-html="post.content"></div>
         </div>
-        <div>
-            comments: <span v-if="comments_loading">Loading...</span>
-            <span v-for="c in comments">{{c.content}}</span>
-        </div>
+        <comment :post-id="$route.params.post_id"></comment>
     </div>
 </template>
 
 <script>
-    import { mapActions, mapState } from 'vuex';
-    
+    import { mapActions, mapState, mapMutations } from 'vuex';
+    import Comment from './Comment.vue';
+    import { URL_BLOG_VOTE } from '../store/api';
+    import { post as POST } from '../util/fetch';
+    import { POST_VOTE_UP, POST_VOTE_DOWN } from '../store/mutation-types';
+
     export default {
+        components: { Comment },
         data() {
-            return {};
+            return {
+                post_id: '',
+                vote_time: 0
+            };
         },
         computed: {
             ...mapState({
                 post(state) {
+                    this.vote_time = state.post.vote_time;
                     // vue，只能监听简单数据类型的变化，所以这里强行扯上loading属性，只要这个有变化，就重新计算这里的post
-                    return state.post.id_map.loading ? {loading: true} : (state.post.id_map[this.$route.params.post_id] || {loading: true});
+                    return state.post.id_map.loading ? {loading: true} : (state.post.id_map[this.post_id] || {loading: true});
                 },
-                comments_loading(state) {
-                    return state.comment.loading;
-                },
-                comments(state) {
-                    return state.comment.loading ? [] : (state.comment.id_map[this.$route.params.post_id] || []);
-                }
+                is_login: state => state.user.is_login,
+                user_info: state => state.user.user_info
             })
         },
         methods: {
-            ...mapActions(['requestPostDetail', 'requestCommentList'])
+            ...mapActions(['requestPostDetail']),
+            ...mapMutations([POST_VOTE_UP, POST_VOTE_DOWN]),
+            vote() {
+                
+                POST(URL_BLOG_VOTE.replace(':post_id', this.post_id))
+                .then(json => {
+                    if(json.msg === 'ok') {
+                        let payload = {
+                            post_id: this.post_id, 
+                            uper: {
+                                username: this.user_info.username, 
+                                avatar_url: this.user_info.avatar_url
+                            }
+                        };
+                        if(json.action === 'up') {
+                            this[POST_VOTE_UP](payload);
+                        } else {
+                            this[POST_VOTE_DOWN](payload);
+                        }
+                    } else {
+                        alert(json.msg);
+                    }
+                });
+            }
         },
         mounted() {
-            let post_id = this.$route.params.post_id;
+            this.post_id = this.$route.params.post_id;
 
-            this.requestPostDetail(post_id);
-            this.requestCommentList(post_id)
+            this.requestPostDetail(this.post_id);
         }
     }
 </script>

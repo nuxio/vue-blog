@@ -18,7 +18,7 @@
 <script>
     import { mapActions, mapState, mapMutations } from 'vuex';
     import Comment from './Comment.vue';
-    import { URL_BLOG_VOTE } from '../store/api';
+    import { URL_BLOG_VOTE, URL_BLOG_DELETE } from '../store/api';
     import { post as POST } from '../util/fetch';
     import { POST_VOTE_UP, POST_VOTE_DOWN } from '../store/mutation-types';
 
@@ -77,7 +77,18 @@
                 });
             },
             deletePost() {
-                console.log(233);
+                let c = confirm('确认删除此博客？');
+                if(c) {
+                    POST(URL_BLOG_DELETE, {blog_id: this.post_id})
+                    .then(json => {
+                        if(json.msg === 'ok') {
+                            alert('删除成功');
+                            this.$router.push('/');
+                        } else {
+                            alert(json.msg);
+                        }
+                    });
+                }
             }
         },
         mounted() {

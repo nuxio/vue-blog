@@ -5,6 +5,7 @@ import Home from './container/Home.vue';
 import PostList from './container/PostList.vue';
 // 用了webpack的import方法，需要"syntax-dynamic-import"babel插件支持
 // 异步加载组件
+// import() 依赖于promise，所以感觉还是有必要加上兼容代码
 const PostDetail = () => import('./container/PostDetail.vue');
 const User = () => import('./container/User.vue');
 const Login = () => import('./container/Login.vue');

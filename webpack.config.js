@@ -1,8 +1,8 @@
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-// @todo: manifest json
 module.exports = {
     entry: {
         main: './src/main.js',
@@ -34,6 +34,10 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     use: 'css-loader'
                 })
+            },
+            {
+                test: /\.html$/,
+                loader: 'html-loader'
             }
         ]
     },
@@ -93,7 +97,13 @@ if(process.env.NODE_ENV === 'production') {
                 warnings: false
             }
         }),
-        // 不知道干啥的
+        
+        // 将名称写到html中
+        new HtmlWebpackPlugin({
+            template: './index.html'
+        }),
+
+        // 按模块出现的次数分配标识？用于获得更短的标识，减少总文件大小
         new webpack.optimize.OccurrenceOrderPlugin()
     ]);
 }

@@ -11,9 +11,7 @@ import { get as GET } from '../../util/fetch';
 
 export default {
     state: {
-        list_map: {
-            '1': []
-        },
+        list: [],
         total_num: 0,
         loading: false,
         page: 1,
@@ -27,7 +25,7 @@ export default {
             state.loading = true;
         },
         [RECEIVE_POST_LIST] (state, payload) {
-            state.list_map[payload.page] = payload.list;
+            state.list = payload.list;
             state.total_num = payload.total_num;
             state.loading = false;
         },
@@ -51,34 +49,13 @@ export default {
         }
     },
     getters: {
-        list(state) {
-            let page = state.page;
-            return state.list_map[page] || [];
-        },
         total_page(state) {
             let total_num = state.total_num,
                 limit = state.limit;
-            return parseInt(total_num / limit, 10);
+            return Math.ceil(total_num / limit, 10);
         }
     },
     actions: {
-        /**
-         * action接收一个context对象，与store本体一致
-         */
-        requestPostList({commit, state}, page) {
-            if(state.list_map[page].length) {
-                return false;
-            }
-            commit({type: REQUEST_POST_LIST, page});
-            GET(URL_GET_POST_LIST, {page, limit: state.limit})
-            .then(json => {
-                if(json.msg === 'ok') {
-                    commit({type: RECEIVE_POST_LIST, list: json.blogs, page: json.page, total_num: json.total_num});
-                } else {
-                    commit({type: RECEIVE_POST_LIST, list: []});
-                }
-            });
-        },
         requestPostDetail({commit, state}, id) {
             if(state.id_map[id]) {
                 return false;

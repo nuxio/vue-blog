@@ -3,6 +3,7 @@
         <form @submit.prevent="create" class="edit-form">
             <p>title: <input type="text" name="title" v-model="title" required /></p>
             <editor-instance :content="pre_content" :height="300" @change="change"></editor-instance>
+            Tags: <input type="text" v-model="tags" /><br />
             <button type="submit">发布</button>
         </form>
     </div>
@@ -10,8 +11,8 @@
 
 <script>
     import Editor from 'vue-html5-editor';
-    import { post as POST } from '../util/fetch';
-    import { URL_CREATE_POST } from '../store/api';
+    import { post as POST, get as GET } from '../util/fetch';
+    import { URL_CREATE_POST, URL_GET_POST_DETAIL } from '../store/api';
 
     const editor_options = {
         name: 'editor',
@@ -27,7 +28,8 @@
                 title: '',
                 pre_content: '',
                 content: '',
-                tags: ''
+                tags: '',
+                post_id: ''
             };
         },
         methods: {
@@ -53,7 +55,9 @@
                     tags: this.tags.split('_')
                 };
 
-                POST(URL_CREATE_POST, data)
+                let url = this.post_id ? (URL_GET_POST_DETAIL + this.post_id) : URL_CREATE_POST;
+                
+                POST(url, data)
                 .then(json => {
                     if(json.msg === 'ok') {
                         alert('发布成功');
@@ -62,6 +66,24 @@
                         alert(json.msg);
                     }
                 });
+            },
+            getEditPost() {
+                GET(URL_GET_POST_DETAIL + this.post_id)
+                .then(json => {
+                    if(json.msg === 'ok') {
+                        this.pre_content = this.content = json.blog.content;
+                        this.title = json.blog.title;
+                        this.tags = json.blog.tags.join('_');
+                    } else {
+                        alert(json.msg);
+                    }
+                });
+            }
+        },
+        mounted() {
+            this.post_id = this.$route.params.post_id;
+            if(this.post_id) {
+                this.getEditPost();
             }
         }
     }

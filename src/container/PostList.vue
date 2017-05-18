@@ -13,26 +13,55 @@
                 :create-at="item.create_at"
             />
         </ul>
+
+        <paging :page="page" :total_num="total_num" :total_page="total_page" v-on:turn="requestPostList"></paging>
     </div>
 </template>
 
 <script>
     import { mapState, mapActions, mapGetters } from 'vuex';
     import PostListItem from '../component/PostListItem.vue';
+    import { REQUEST_POST_LIST, RECEIVE_POST_LIST } from '../store/mutation-types';
+    import { URL_GET_POST_LIST } from '../store/api';
+    import { get as GET } from '../util/fetch';
+    import Paging from '../component/Paging.vue';
 
     export default {
-        components: { PostListItem },
+        components: { PostListItem, Paging },
         data() {
             return {};
         },
         computed: {
             ...mapState({
-                loading: state => state.post.loading
+                loading: state => state.post.loading,
+                page: state => state.post.page,
+                limit: state => state.post.limit,
+                list: state => state.post.list,
+                total_num: state => state.post.total_num
             }),
-            ...mapGetters(['list'])
+            ...mapGetters(['total_page'])
         },
         methods: {
-            ...mapActions(['requestPostList'])
+            requestPostList(page) {
+                if(this.loading) return false;
+
+                this.$store.commit({type: REQUEST_POST_LIST, page});
+
+                GET(URL_GET_POST_LIST, {page, limit: this.limit})
+                .then(json => {
+                    if(json.msg === 'ok') {
+                        this.$store.commit({
+                            type: RECEIVE_POST_LIST, 
+                            list: json.blogs, 
+                            page: json.page, 
+                            total_num: json.total_num
+                        });
+                    } else {
+                        alert(json.msg);
+                        this.$store.commit({type: RECEIVE_POST_LIST, list: []});
+                    }
+                });
+            }
         },
         mounted() {
             this.requestPostList(1);

@@ -6,6 +6,8 @@
             <h2>{{post.title}}</h2>
             <p v-if="is_login">
                 <a href="javascript:;" @click="vote">{{is_voted ? '取消点赞' : '点赞'}}({{post.up}})</a>
+                <router-link :to="`/create/${post._id}`" v-if="post.author === user_info.username">编辑</router-link>
+                <a href="javascript:;" @click="deletePost" v-if="post.author === user_info.username">删除</a>
             </p>
             <div v-html="post.content"></div>
         </div>
@@ -54,7 +56,6 @@
             ...mapActions(['requestPostDetail']),
             ...mapMutations([POST_VOTE_UP, POST_VOTE_DOWN]),
             vote() {
-                
                 POST(URL_BLOG_VOTE.replace(':post_id', this.post_id))
                 .then(json => {
                     if(json.msg === 'ok') {
@@ -74,6 +75,9 @@
                         alert(json.msg);
                     }
                 });
+            },
+            deletePost() {
+                console.log(233);
             }
         },
         mounted() {

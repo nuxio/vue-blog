@@ -10,6 +10,7 @@ export const URL_GET_POST_LIST = 'http://localhost:3000/blogs';
 export const URL_GET_POST_DETAIL = 'http://localhost:3000/blog/';
 export const URL_CREATE_POST = 'http://localhost:3000/create';
 export const URL_BLOG_VOTE = 'http://localhost:3000/blog/:post_id/up';
+export const URL_BLOG_DELETE = 'http://localhost:3000/blog/delete/:post_id';
 
 // comment
 export const URL_GET_COMMENT_LIST = 'http://localhost:3000/:post_id/comments';

@@ -1,11 +1,22 @@
 <template>
-    <div class="login">
-        <p>Login</p>
-        <form @submit.prevent="login">
-            username: <input type="text" v-model="username" required /><br />
-            password: <input type="password" v-model="password" required /><br />
-            remember: <input type="checkbox" v-model="remember" value="1" /><br />
-            <button type="submit">Login</button>
+    <div class="flex-grow-2">
+        <h2>登录</h2>
+        <form @submit.prevent="login" class="login-form">
+            <fieldset>
+                <label for="username">用户名：</label>
+                <input type="text" id="username" v-model="username" required />
+            </fieldset>
+            <fieldset>
+                <label for="password">密&nbsp;&nbsp;&nbsp;码：</label>
+                <input type="password" v-model="password" required />
+            </fieldset>
+            <fieldset>
+                <label for="remember">记住我：</label>
+                <input id="remember" type="checkbox" v-model="remember" value="1" />
+            </fieldset>
+            <fieldset>
+                <button type="submit">登录</button>
+            </fieldset>
         </form>
     </div>
 </template>
@@ -77,3 +88,10 @@
         }
     }
 </script>
+
+<style>
+    .login-form {
+        margin: 0 auto;
+        width: 500px;
+    }
+</style>

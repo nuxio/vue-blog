@@ -1,10 +1,22 @@
 <template>
-    <div class="create">
+    <div class="flex-grow-2">
         <form @submit.prevent="create" class="edit-form">
-            <p>title: <input type="text" name="title" v-model="title" required /></p>
-            <editor-instance :content="pre_content" :height="300" @change="change"></editor-instance>
-            Tags: <input type="text" v-model="tags" /><br />
-            <button type="submit">发布</button>
+            <h2>{{post_id ? '编辑' : '发布'}}</h2>
+            <fieldset class="edit-form-field">
+                <label for="edit_form_title">标题：</label>
+                <input id="edit_form_title" type="text" name="title" v-model="title" required />
+            </fieldset>
+            <fieldset>
+                <label>内容：</label>
+                <editor-instance :content="pre_content" :height="300" @change="change"></editor-instance>
+            </fieldset>
+            <fieldset class="edit-form-field">
+                <label for="edit_form_tags">标签：</label>
+                <input id="edit_form_tags" type="text" v-model="tags" />
+            </fieldset>
+            <fieldset class="edit-form-field">
+                <button type="submit">发布</button>
+            </fieldset>
         </form>
     </div>
 </template>
@@ -90,7 +102,9 @@
 </script>
 
 <style>
-    .edit-form {
-        width: 600px;
+    .edit-form-field {
+        margin: 10px 0;
+        height: 30px;
+        line-height: 30px;
     }
 </style>

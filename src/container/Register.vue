@@ -1,11 +1,22 @@
 <template>
-    <div class="register">
-        <p>Register</p>
-        <form @submit.prevent="register">
-            username: <input type="text" v-model="username" required /><br />
-            password: <input type="password" v-model="password" required /><br />
-            password confirm: <input type="password" v-model="password_confirm" required /><br />
-            <button type="submit">Go</button>
+    <div class="flex-grow-2">
+        <h2>注册</h2>
+        <form @submit.prevent="register" class="register-form">
+            <fieldset>
+                <label for="username">用户名：</label>
+                <input id="username" type="text" v-model="username" required />
+            </fieldset>
+            <fieldset>
+                <label for="password">密&nbsp;&nbsp;&nbsp;码：</label>
+                <input id="password" type="password" v-model="password" required />
+            </fieldset>
+            <fieldset>
+                <label for="password_confirm">密码确认：</label>
+                <input id="password_confirm" type="password" v-model="password_confirm" required />
+            </fieldset>
+            <fieldset>
+                <button type="submit">提交</button>
+            </fieldset>
         </form>
     </div>
 </template>
@@ -76,3 +87,10 @@
         }
     }
 </script>
+
+<style>
+    .register-form {
+        margin: 0 auto;
+        width: 500px;
+    }
+</style>

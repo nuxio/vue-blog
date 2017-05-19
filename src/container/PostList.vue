@@ -1,9 +1,8 @@
 <template>
-    <div class="post-list">
-        <h2>博客列表</h2>
-        <p v-if="loading && !list.length">Loading</p>
-        <p v-if="!loading && !list.length">还没有哦~</p>
-        <ul v-if="!loading && list.length">
+    <div class="flex-grow-2">
+        <div v-if="loading && !list.length">Loading</div>
+        <div v-if="!loading && !list.length">还没有哦~</div>
+        <ul v-if="!loading && list.length" class="post-list">
             <post-list-item 
                 v-for="item in list" 
                 :key="item._id" 
@@ -11,9 +10,10 @@
                 :title="item.title"
                 :author="item.author"
                 :create-at="item.create_at"
+                :visit="item.visit"
+                :up="item.up"
             />
         </ul>
-
         <paging :page="page" :total_num="total_num" :total_page="total_page" v-on:turn="requestPostList"></paging>
     </div>
 </template>
@@ -68,3 +68,7 @@
         }
     }
 </script>
+
+<style>
+
+</style>

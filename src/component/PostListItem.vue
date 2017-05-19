@@ -1,7 +1,12 @@
 <template>
     <li>
         <h3><router-link :to="`/post/${id}`">{{title}}</router-link></h3>
-        <p>Create by:{{author}}, create at: {{create_time}}</p>
+        <p class="post-base-info">
+            作者：<router-link :to="`/user/${author}`">{{author}}</router-link> &nbsp; 
+            发布于：{{create_time}} &nbsp; 
+            浏览量：{{visit}} &nbsp; 
+            赞：{{up}}
+        </p>
     </li>
 </template>
 
@@ -30,6 +35,12 @@
             createAt: {
                 type: String,
                 required: true
+            },
+            visit: {
+                type: Number
+            },
+            up: {
+                type: Number
             }
         },
         data() {
@@ -42,3 +53,10 @@
         }
     }
 </script>
+
+<style>
+    .post-base-info {
+        font-size: 14px;
+        color: #7f8c8d;
+    }
+</style>

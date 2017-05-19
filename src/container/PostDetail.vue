@@ -1,5 +1,5 @@
 <template>
-    <div class="post-detail">
+    <div class="post-detail flex-grow-2">
         <p v-if="post.loading">Loading</p>
         <p v-if="!post.loading && post.msg">{{post.msg}}</p>
         <div v-else="!post.loading">

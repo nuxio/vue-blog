@@ -1,0 +1,64 @@
+/**基础样式部分**/
+body {
+    margin: 0;
+}
+header, footer {
+    display: flex;
+    justify-content: space-around;
+    background-color: #fafafa;
+}
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+a {
+    color: #34495e;
+    text-decoration: none;
+}
+fieldset {
+    border: 0;
+    padding: 0;
+    margin: 15px 0;
+}
+input {
+    height: 30px;
+    line-height: 30px;
+    box-sizing: border-box;
+    padding: 0 15px;
+    border: 1px solid #e3e3e3;
+    color: #2c3e50;
+    outline: none;
+    border-radius: 5px;
+    transition: border-color 0.2s ease;
+}
+input:focus {
+    border-color: #42b983;
+}
+button {
+    width: 100px;
+    height: 34px;
+    color: #fff;
+    letter-spacing: 1px;
+    background: #42b983;
+    border-bottom: 1px solid #2d78f4;
+    outline: medium;
+    border: 0;
+    border-radius: 5px;
+}
+a:hover {
+    border-bottom: 3px solid #42b983;
+}
+
+/** 比较自定义的部分**/
+fieldset>label {
+    display: inline-block;
+    width: 84px;
+    text-align: right;
+}
+fieldset > input[type="text"], fieldset > input[type="password"]{
+    width: 300px;
+}
+fieldset > input[type="checkbox"] {
+    height: auto;
+}

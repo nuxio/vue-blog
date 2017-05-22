@@ -1,30 +1,47 @@
 <template>
-    <div class="comment-list">
-        <h5>评论列表：</h5>
-        <p v-if="loading" class="comment-list-loading">Loading</p>
-        <p v-if="!loading && !list.length">暂无评论</p>
-        <ul v-if="!loading && list.length">
-            <li v-for="c in list">
-                {{c.content}} --- {{c.author}} 
-                <a href="javascript:;" @click="vote(c)" v-if="!loading_vote">{{voteText(c.ups)}}({{c.up}})</a>
-                <a href="javascript:;" v-else="loading_vote">{{voteText(c.ups)}}({{c.up}})</a>
-                <a href="javascript:;" v-if="is_login && c.author === user_info.username" @click="deleteComment(c._id)">删除</a>
-            </li>
-        </ul>
-        <template v-if="is_login">
-            <h5>添加评论</h5>
-            <form @submit.prevent="submitComment">
-                <textarea cols="30" rows="10" v-model="content" required></textarea>
-                <button type="submit" :disabled="loading_submit">提交</button>
-            </form>
-        </template>
-        <div v-else>
-            您还未登录，<router-link to="/login">去登录</router-link>
+    <div>
+        <h3>评论列表：</h3>
+        <div class="comment-list">
+            <p v-if="loading" class="comment-list-loading">评论加载中...</p>
+            <p v-if="!loading && !list.length">暂无评论</p>
+            <ul v-if="!loading && list.length">
+                <li v-for="(c, index) in list" class="comment-item">
+                    <div class="comment-item-user">
+                        {{c.author}}
+                    </div>
+                    <div>
+                        <div class="comment-item-info">
+                            {{index+1}}楼·{{getCreateTime(c.create_at)}}
+                            <a href="javascript:;" @click="vote(c)">
+                                <i 
+                                    :class="['fa', isVoted(c.ups) ? 'fa-thumbs-up' : 'fa-thumbs-o-up']" 
+                                    aria-hidden="true"
+                                ></i>({{c.up}})
+                            </a>
+                            <a href="javascript:;" v-if="is_login && c.author === user_info.username" @click="deleteComment(c._id)">删除</a>
+                        </div>
+                        <div class="comment-item-content">
+                            {{c.content}}
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <template v-if="is_login">
+                <h3>我有话说：</h3>
+                <form @submit.prevent="submitComment">
+                    <textarea cols="100" rows="10" v-model="content" required></textarea><br />
+                    <button type="submit" :disabled="loading_submit">提交</button>
+                </form>
+            </template>
+            <div v-else>
+                您还未登录，<router-link to="/login">去登录</router-link>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+    import moment from 'moment';
     import { mapMutations, mapState } from 'vuex';
     import { RECEIVE_COMMENT_LIST, COMMENT_VOTE_UP, COMMENT_VOTE_DOWN, COMMENT_DELETE } from '../store/mutation-types';
     import { URL_GET_COMMENT_LIST, URL_SUBMIT_COMMENT, URL_COMMENT_VOTE, URL_COMMENT_DELETE } from '../store/api';
@@ -99,6 +116,7 @@
                     alert('您还未登录，请先登录');
                     return false;
                 }
+                if(this.isVoted(c.ups)) return false;
 
                 this.loading_vote = true;
 
@@ -125,8 +143,11 @@
                     }
                 });
             },
-            voteText(ups) {
-                if(!this.is_login) { return '点赞'; }
+            getCreateTime(t) {
+                return moment(parseInt(t, 10)).fromNow();
+            },
+            isVoted(ups) {
+                if(!this.is_login) { return false; }
 
                 let index = -1;
                 for(let i = 0; i < ups.length; i++) {
@@ -135,7 +156,7 @@
                         break;
                     }
                 }
-                return index !== -1 ? '取消点赞' : '点赞';
+                return index !== -1;
             },
             deleteComment(id) {
                 let c = confirm('确定删除此条评论？');
@@ -159,7 +180,18 @@
 </script>
 
 <style>
-    .comment-list-loading {
-        text-align: center;
+    .comment-item {
+        display: flex;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+    .comment-item-user {
+        height: 50px;
+        width: 50px;
+        margin-right: 10px;
+    }
+    .comment-item-info {
+        font-size: 14px;
+        color: #7f8c8d;
     }
 </style>

@@ -1,21 +1,52 @@
 <template>
     <div class="post-detail flex-grow-2">
-        <p v-if="post.loading">Loading</p>
-        <p v-if="!post.loading && post.msg">{{post.msg}}</p>
-        <div v-else="!post.loading">
+        <div v-if="post.loading">
+            <h2>加载中...</h2>
+        </div>
+        <div v-if="!post.loading && post.msg">{{post.msg}}</div>
+        <div v-if="!post.loading && post.title">
             <h2>{{post.title}}</h2>
-            <p v-if="is_login">
-                <a href="javascript:;" @click="vote">{{is_voted ? '取消点赞' : '点赞'}}({{post.up}})</a>
-                <router-link :to="`/create/${post._id}`" v-if="post.author === user_info.username">编辑</router-link>
-                <a href="javascript:;" @click="deletePost" v-if="post.author === user_info.username">删除</a>
-            </p>
-            <div v-html="post.content"></div>
+            <div class="post-base-info">
+                <span>
+                    作者：<router-link :to="`/user/${post.author}`">{{post.author}}</router-link> &nbsp;
+                </span>
+                <span>
+                    发布于：{{create_time}} &nbsp;
+                </span>
+                <span>
+                    浏览次数：{{post.visit}} &nbsp;
+                </span>
+                <a href="javascript:;" @click="vote" :style="{color: is_voted ? '#dd4b39' : 'inherit'}">
+                    <i 
+                        :class="['fa', is_voted ? 'fa-thumbs-up' : 'fa-thumbs-o-up']" 
+                        aria-hidden="true"
+                    ></i>
+                    ({{post.up}})
+                </a>
+            </div>
+            <div v-if="is_login">
+                <router-link 
+                    :to="`/create/${post._id}`" 
+                    v-if="post.author === user_info.username"
+                >
+                    编辑
+                </router-link>
+                <a 
+                    href="javascript:;" 
+                    @click="deletePost" 
+                    v-if="post.author === user_info.username"
+                >
+                    删除
+                </a>
+            </div>
+            <div class="post-content" v-html="post.content"></div>
         </div>
         <comment :post-id="$route.params.post_id"></comment>
     </div>
 </template>
 
 <script>
+    import moment from 'moment';
     import { mapActions, mapState, mapMutations } from 'vuex';
     import Comment from './Comment.vue';
     import { URL_BLOG_VOTE, URL_BLOG_DELETE } from '../store/api';
@@ -40,6 +71,9 @@
                 is_login: state => state.user.is_login,
                 user_info: state => state.user.user_info
             }),
+            create_time() {
+                return moment(parseInt(this.post.create_at, 10)).fromNow();
+            },
             is_voted() {
                 let index = -1;
                 let length = this.post.ups ? this.post.ups.length : 0;
@@ -98,3 +132,11 @@
         }
     }
 </script>
+
+<style>
+    .post-content {
+        padding: 10px;
+        border-top: 1px solid #e5e5e5;
+        border-bottom: 1px solid #e5e5e5;
+    }
+</style>

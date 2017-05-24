@@ -9,7 +9,7 @@
             </div>
             <div class="nav" @mouseenter="showUserMenu" @mouseleave="hideUserMenu">
                 <template v-if="is_login">
-                    <span class="user-name">你好，{{user_info.username}}</span>
+                    <span class="user-name">你好，<router-link :to="`/user/${user_info.username}`">{{user_info.username}}</router-link></span>
                     <div class="user-menu" v-show="user_menu_show">
                         <ul>
                             <li><router-link to="/create">发布</router-link></li>

@@ -20,16 +20,15 @@
                             </a>
                             <a href="javascript:;" v-if="is_login && c.author === user_info.username" @click="deleteComment(c._id)">删除</a>
                         </div>
-                        <div class="comment-item-content">
-                            {{c.content}}
-                        </div>
+                        <div class="comment-item-content markdown-body" v-html="getMarkedContent(c.content)"></div>
                     </div>
                 </li>
             </ul>
             <template v-if="is_login">
                 <h3>我有话说：</h3>
                 <form @submit.prevent="submitComment">
-                    <textarea cols="100" rows="10" v-model="content" required></textarea><br />
+                    <editor v-model="content" :height="200" :width="700" display="block"></editor>
+                    <br />
                     <button type="submit" :disabled="loading_submit">提交</button>
                 </form>
             </template>
@@ -46,11 +45,17 @@
     import { RECEIVE_COMMENT_LIST, COMMENT_VOTE_UP, COMMENT_VOTE_DOWN, COMMENT_DELETE } from '../store/mutation-types';
     import { URL_GET_COMMENT_LIST, URL_SUBMIT_COMMENT, URL_COMMENT_VOTE, URL_COMMENT_DELETE } from '../store/api';
     import { get as GET, post as POST } from '../util/fetch';
+    import Editor from '../component/Editor.vue';
     
     export default {
+        components: { Editor },
         props: {
             postId: {
                 type: String,
+                required: true
+            },
+            marked: {
+                type: Function,
                 required: true
             }
         },
@@ -110,6 +115,9 @@
                         alert(json.msg);
                     }
                 });
+            },
+            getMarkedContent(content) {
+                return this.marked(content);
             },
             vote(c) {
                 if(!this.is_login) {

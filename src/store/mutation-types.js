@@ -1,6 +1,7 @@
 // user
 export const USER_LOGIN = 'USER_LOGIN';
 export const USER_LOGOUT = 'USER_LOGOUT';
+export const GET_USER_INFO = 'GET_USER_INFO';
 
 // post
 export const REQUEST_POST_LIST = 'REQUEST_POST_LIST';

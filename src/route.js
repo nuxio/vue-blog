@@ -24,7 +24,8 @@ const routes = [
             { path: '/register', component: Register },
             { path: '/create', component: Create },
             { path: '/create/:post_id', component: Create },
-            { path: '/post/:post_id', component: PostDetail }
+            { path: '/post/:post_id', component: PostDetail },
+            { path: '/user/:username', component: User }
         ]
     }
 ];

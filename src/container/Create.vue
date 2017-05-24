@@ -8,13 +8,18 @@
             </fieldset>
             <fieldset>
                 <label>内容：</label>
-                <editor-instance :content="pre_content" :height="300" @change="change"></editor-instance>
+                <editor 
+                    v-model="content"
+                    :height="500"
+                    :width="800"
+                ></editor>
             </fieldset>
             <fieldset class="edit-form-field">
                 <label for="edit_form_tags">标签：</label>
                 <input id="edit_form_tags" type="text" v-model="tags" />
             </fieldset>
             <fieldset class="edit-form-field">
+                <label>&nbsp;</label>
                 <button type="submit">发布</button>
             </fieldset>
         </form>
@@ -22,23 +27,15 @@
 </template>
 
 <script>
-    import Editor from 'vue-html5-editor';
+    import Editor from '../Component/Editor.vue';
     import { post as POST, get as GET } from '../util/fetch';
     import { URL_CREATE_POST, URL_GET_POST_DETAIL } from '../store/api';
 
-    const editor_options = {
-        name: 'editor',
-        language: 'zh-cn'
-    };
-
-    let EditorInstance = new Editor(editor_options);
-
     export default {
-        components: { EditorInstance },
+        components: { Editor },
         data() {
             return {
                 title: '',
-                pre_content: '',
                 content: '',
                 tags: '',
                 post_id: ''
@@ -83,7 +80,7 @@
                 GET(URL_GET_POST_DETAIL + this.post_id)
                 .then(json => {
                     if(json.msg === 'ok') {
-                        this.pre_content = this.content = json.blog.content;
+                        this.content = json.blog.content;
                         this.title = json.blog.title;
                         this.tags = json.blog.tags.join('_');
                     } else {

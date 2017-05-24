@@ -4,7 +4,6 @@ import Vuex from 'vuex';
 import actions from './action';
 import comment from './modules/comment';
 import user from './modules/user';
-import user_list from './modules/user_list';
 import post from './modules/post';
 
 Vue.use(Vuex);
@@ -16,7 +15,6 @@ export default new Vuex.Store({
     modules: {
         user,
         post,
-        user_list,
         comment
     },
     strict: debug

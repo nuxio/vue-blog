@@ -1,4 +1,4 @@
-import { USER_LOGIN, USER_LOGOUT } from '../mutation-types';
+import { USER_LOGIN, USER_LOGOUT, GET_USER_INFO } from '../mutation-types';
 
 export default {
     state: {
@@ -6,9 +6,9 @@ export default {
         user_info: {
             username: '',
             avatar_url: ''
-        }
+        },
+        user_list: {}
     },
-    getters: {},
     mutations: {
         [USER_LOGIN] (state, payload) {
             state.is_login = true;
@@ -16,6 +16,8 @@ export default {
             if(payload.remember) {
                 localStorage.setItem('user', JSON.stringify(payload.user));
             }
+            // 顺便塞进去
+            state.user_list[payload.user.username] = payload.user;
         },
         [USER_LOGOUT] (state, payload) {
             state.is_login = false;
@@ -25,7 +27,9 @@ export default {
             });
             
             localStorage.removeItem('user');
+        },
+        [GET_USER_INFO] (state, payload) {
+            state.user_list[payload.user.username] = payload.user;
         }
-    },
-    actions: {}
+    }
 }

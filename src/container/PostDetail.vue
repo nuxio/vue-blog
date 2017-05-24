@@ -39,19 +39,28 @@
                     删除
                 </a>
             </div>
-            <div class="post-content" v-html="post.content"></div>
+            <div class="post-content markdown-body" v-html="marked_content"></div>
         </div>
-        <comment :post-id="$route.params.post_id"></comment>
+        <comment :post-id="$route.params.post_id" :marked="marked"></comment>
     </div>
 </template>
 
 <script>
     import moment from 'moment';
+    import marked from 'marked';
     import { mapActions, mapState, mapMutations } from 'vuex';
+    import { post as POST } from '../util/fetch';
+    import hljs from '../util/highlight.min.js';
     import Comment from './Comment.vue';
     import { URL_BLOG_VOTE, URL_BLOG_DELETE } from '../store/api';
-    import { post as POST } from '../util/fetch';
     import { POST_VOTE_UP, POST_VOTE_DOWN } from '../store/mutation-types';
+
+    marked.setOptions({
+        sanitize: true,
+        highlight: function (code) {
+            return hljs.highlightAuto(code).value;
+        }
+    });
 
     export default {
         components: { Comment },
@@ -71,6 +80,9 @@
                 is_login: state => state.user.is_login,
                 user_info: state => state.user.user_info
             }),
+            marked_content() {
+                return marked(this.post.content);
+            },
             create_time() {
                 return moment(parseInt(this.post.create_at, 10)).fromNow();
             },
@@ -123,6 +135,9 @@
                         }
                     });
                 }
+            },
+            marked(str) {
+                return marked(str);
             }
         },
         mounted() {
@@ -134,6 +149,9 @@
 </script>
 
 <style>
+    @import "../assets/github-markdown.css";
+    @import "../assets/atom-one-light.css";
+
     .post-content {
         padding: 10px;
         border-top: 1px solid #e5e5e5;

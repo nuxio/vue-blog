@@ -66,7 +66,7 @@ module.exports = {
     },
     plugins: [
         // 抽离css到单独的文件
-        new ExtractTextPlugin('style.css'),
+        new ExtractTextPlugin('style.[contenthash:8].css'),
 
         // 抽离公共代码，名称可以指定到一个入口文件的名称，也可以单独指定
         new webpack.optimize.CommonsChunkPlugin({

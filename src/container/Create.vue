@@ -27,7 +27,7 @@
 </template>
 
 <script>
-    import Editor from '../Component/Editor.vue';
+    import Editor from '../component/Editor.vue';
     import { post as POST, get as GET } from '../util/fetch';
     import { URL_CREATE_POST, URL_GET_POST_DETAIL } from '../store/api';
 

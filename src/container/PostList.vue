@@ -1,20 +1,22 @@
 <template>
     <div class="flex-grow-2">
-        <div v-if="loading && !list.length">Loading</div>
-        <div v-if="!loading && !list.length">还没有哦~</div>
-        <ul v-if="!loading && list.length" class="post-list">
-            <post-list-item 
-                v-for="item in list" 
-                :key="item._id" 
-                :id="item._id"
-                :title="item.title"
-                :author="item.author"
-                :create-at="item.create_at"
-                :visit="item.visit"
-                :up="item.up"
-            />
-        </ul>
-        <paging :page="page" :total_num="total_num" :total_page="total_page" v-on:turn="requestPostList"></paging>
+        <div class="post-list">
+            <div v-if="loading && !list.length">加载中...</div>
+            <div v-if="!loading && !list.length">还没有哦~</div>
+            <ul v-if="!loading && list.length">
+                <post-list-item 
+                    v-for="item in list" 
+                    :key="item._id" 
+                    :id="item._id"
+                    :title="item.title"
+                    :author="item.author"
+                    :create-at="item.create_at"
+                    :visit="item.visit"
+                    :up="item.up"
+                />
+            </ul>
+            <paging :page="page" :total_num="total_num" :total_page="total_page" v-on:turn="requestPostList"></paging>
+        </div>
     </div>
 </template>
 
@@ -70,5 +72,7 @@
 </script>
 
 <style>
-
+    .post-list {
+        margin-top: 20px;
+    }
 </style>

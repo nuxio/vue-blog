@@ -3,5 +3,6 @@
         ["es2015", {"modules": false}],
         ["stage-3"]
     ],
+    // import() 按需加载api
     "plugins": ["syntax-dynamic-import"]
 }

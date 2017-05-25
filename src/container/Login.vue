@@ -8,13 +8,14 @@
             </fieldset>
             <fieldset>
                 <label for="password">密&nbsp;&nbsp;&nbsp;码：</label>
-                <input type="password" v-model="password" required />
+                <input type="password" id="password" v-model="password" required />
             </fieldset>
             <fieldset>
                 <label for="remember">记住我：</label>
                 <input id="remember" type="checkbox" v-model="remember" value="1" />
             </fieldset>
             <fieldset>
+                <label>&nbsp;</label>
                 <button type="submit">登录</button>
             </fieldset>
         </form>

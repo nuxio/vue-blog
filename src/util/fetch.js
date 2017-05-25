@@ -57,6 +57,19 @@ export const proxy = (o) => {
         .catch(err => console.log(err));
 }
 
+// 上传专用
+export const upload = (o) => {
+    let options = {
+        method: 'POST',
+        body: o.formData,
+        credentials: 'include' // 开发
+    };
+
+    return fetch(o.url, options)
+            .then(res => res.json())
+            .catch(err => console.log(err));
+}
+
 export const get = (url, data) => {
     return proxy({
         method: 'GET',

@@ -1,22 +1,23 @@
 <template>
     <div>
-        <h3>评论列表：</h3>
+        <h3 class="sub-title">评论列表：</h3>
         <div class="comment-list">
             <p v-if="loading" class="comment-list-loading">评论加载中...</p>
             <p v-if="!loading && !list.length">暂无评论</p>
             <ul v-if="!loading && list.length">
                 <li v-for="(c, index) in list" class="comment-item">
                     <div class="comment-item-user">
-                        {{c.author}}
+                        <router-link :to="`/user/${c.author}`">
+                            <img :src="c.author_avatar_url" />
+                            <br />
+                            {{c.author}}
+                        </router-link>
                     </div>
                     <div>
                         <div class="comment-item-info">
                             {{index+1}}楼·{{getCreateTime(c.create_at)}}
                             <a href="javascript:;" @click="vote(c)">
-                                <i 
-                                    :class="['fa', isVoted(c.ups) ? 'fa-thumbs-up' : 'fa-thumbs-o-up']" 
-                                    aria-hidden="true"
-                                ></i>({{c.up}})
+                                <i :class="['fa', isVoted(c.ups) ? 'fa-thumbs-up' : 'fa-thumbs-o-up']" aria-hidden="true"></i>({{c.up}})
                             </a>
                             <a href="javascript:;" v-if="is_login && c.author === user_info.username" @click="deleteComment(c._id)">删除</a>
                         </div>
@@ -25,7 +26,7 @@
                 </li>
             </ul>
             <template v-if="is_login">
-                <h3>我有话说：</h3>
+                <h3 class="sub-title">我有话说：</h3>
                 <form @submit.prevent="submitComment">
                     <editor v-model="content" :height="200" :width="700" display="block"></editor>
                     <br />
@@ -33,7 +34,7 @@
                 </form>
             </template>
             <div v-else>
-                您还未登录，<router-link to="/login">去登录</router-link>
+                <router-link to="/login">登录</router-link>后即可发表评论
             </div>
         </div>
     </div>
@@ -194,12 +195,24 @@
         border-bottom: 1px solid #e5e5e5;
     }
     .comment-item-user {
+        height: 80px;
+        width: 80px;
+        margin-right: 10px;
+    }
+    .comment-item-user img {
         height: 50px;
         width: 50px;
-        margin-right: 10px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+    .comment-item-user>a:hover {
+        border-bottom: 0;
     }
     .comment-item-info {
         font-size: 14px;
         color: #7f8c8d;
+    }
+    .comment-item-content {
+        padding: 10px 0;
     }
 </style>

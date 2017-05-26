@@ -1,6 +1,6 @@
 <template>
     <div class="flex-grow-2">
-        <div class="edit-wrap">
+        <div class="edit-wrap pannel">
             <div class="edit-avatar-wrap">
                 <h3 class="user-name">编辑头像</h3>
                 <div class="user-avatar" @mouseenter="enter" @mouseleave="leave">
@@ -164,6 +164,7 @@
     .edit-wrap {
         display: flex;
         margin-top: 50px;
+        height: 100%;
     }
     .edit-avatar-wrap {
         width: 200px;

@@ -1,6 +1,6 @@
 <template>
     <div class="flex-grow-2">
-        <form @submit.prevent="create" class="edit-form">
+        <form @submit.prevent="create" class="edit-form pannel">
             <h2>{{post_id ? '编辑' : '发布'}}</h2>
             <fieldset class="edit-form-field">
                 <label for="edit_form_title">标题：</label>
@@ -99,6 +99,9 @@
 </script>
 
 <style>
+    .edit-form {
+        height: 100%;
+    }
     .edit-form-field {
         margin: 10px 0;
         height: 30px;

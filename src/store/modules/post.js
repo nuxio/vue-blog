@@ -56,6 +56,26 @@ export default {
         }
     },
     actions: {
+        requestPostList({ commit, state }, payload) {
+            if(state.loading) return false;
+
+            commit({type: REQUEST_POST_LIST, page: payload.page});
+
+            GET(URL_GET_POST_LIST, {page: payload.page, limit: state.limit})
+            .then(json => {
+                if(json.msg === 'ok') {
+                    commit({
+                        type: RECEIVE_POST_LIST, 
+                        list: json.blogs, 
+                        page: json.page, 
+                        total_num: json.total_num
+                    });
+                } else {
+                    alert(json.msg);
+                    commit({type: RECEIVE_POST_LIST, list: []});
+                }
+            });
+        },
         requestPostDetail({commit, state}, id) {
             if(state.id_map[id]) {
                 return false;

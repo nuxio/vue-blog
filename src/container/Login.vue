@@ -1,24 +1,26 @@
 <template>
     <div class="flex-grow-2">
-        <h2>登录</h2>
-        <form @submit.prevent="login" class="login-form">
-            <fieldset>
-                <label for="username">用户名：</label>
-                <input type="text" id="username" v-model="username" required />
-            </fieldset>
-            <fieldset>
-                <label for="password">密&nbsp;&nbsp;&nbsp;码：</label>
-                <input type="password" id="password" v-model="password" required />
-            </fieldset>
-            <fieldset>
-                <label for="remember">记住我：</label>
-                <input id="remember" type="checkbox" v-model="remember" value="1" />
-            </fieldset>
-            <fieldset>
-                <label>&nbsp;</label>
-                <button type="submit">登录</button>
-            </fieldset>
-        </form>
+        <div class="login-form-wrap pannel">
+            <h2>登录</h2>
+            <form @submit.prevent="login" class="login-form">
+                <fieldset>
+                    <label for="username">用户名：</label>
+                    <input type="text" id="username" v-model="username" required />
+                </fieldset>
+                <fieldset>
+                    <label for="password">密&nbsp;&nbsp;&nbsp;码：</label>
+                    <input type="password" id="password" v-model="password" required />
+                </fieldset>
+                <fieldset>
+                    <label for="remember">记住我：</label>
+                    <input id="remember" type="checkbox" v-model="remember" value="1" />
+                </fieldset>
+                <fieldset>
+                    <label>&nbsp;</label>
+                    <button type="submit">登录</button>
+                </fieldset>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -91,6 +93,9 @@
 </script>
 
 <style>
+    .login-form-wrap {
+        height: 100%;
+    }
     .login-form {
         margin: 0 auto;
         width: 500px;

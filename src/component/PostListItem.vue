@@ -2,7 +2,7 @@
     <li class="post-item">
         <div class="post-item-author">
             <router-link :to="`/user/${author}`">
-                <img :src="authorAvatarUrl" />
+                <img :src="authorAvatarUrl" class="avatar" />
                 <span>{{author}}</span>
             </router-link>
         </div>
@@ -65,20 +65,18 @@
     .post-item {
         display: flex;
         margin-bottom: 20px;
+        border: 1px dashed;
+        border-radius: 5%;
+        box-shadow: 1px 1px 1px;
     }
     .post-item-author {
         width: 100px;
         margin-right: 20px;
         text-align: center;
-    }
-    .post-item-author img {
-        width: 70px;
-        height: 70px;
-        display: inline-block;
-        border-radius: 50%;
+        padding: 5px;
     }
     .post-item-author>a:hover {
-        text-decoration: none;
+        border-bottom: 0;
     }
     .post-item-info >h3 {
         margin-top: 0;

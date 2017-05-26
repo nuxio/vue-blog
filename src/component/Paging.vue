@@ -1,6 +1,6 @@
 <template>
     <ul class="paging">
-        <li v-for="(p, index) in list" @click="turn(p)" :class="['page-item',  (index + 1) == page ? 'page-item-active' : '']">
+        <li v-for="(p, index) in list" @click="turn(p, index)" :class="['page-item',  (index + 1) == page ? 'page-item-active' : '']">
             {{p}}
         </li>
     </ul>
@@ -37,6 +37,7 @@
         },
         methods: {
             turn(page) {
+                if((index + 1) == page) return false;
                 this.$emit('turn', page);
             }
         }
@@ -52,6 +53,8 @@
         border: 1px dashed #eee;
         border-radius: 5px;
         flex-wrap: wrap;
+        position: absolute;
+        bottom: 10px;
     }
     .page-item {
         height: 30px;

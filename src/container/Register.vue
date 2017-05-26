@@ -1,23 +1,25 @@
 <template>
     <div class="flex-grow-2">
-        <h2>注册</h2>
-        <form @submit.prevent="register" class="register-form">
-            <fieldset>
-                <label for="username">用户名：</label>
-                <input id="username" type="text" v-model="username" required />
-            </fieldset>
-            <fieldset>
-                <label for="password">密&nbsp;&nbsp;&nbsp;码：</label>
-                <input id="password" type="password" v-model="password" required />
-            </fieldset>
-            <fieldset>
-                <label for="password_confirm">密码确认：</label>
-                <input id="password_confirm" type="password" v-model="password_confirm" required />
-            </fieldset>
-            <fieldset>
-                <button type="submit">提交</button>
-            </fieldset>
-        </form>
+        <div class="pannel register-form-wrap">
+            <h2>注册</h2>
+            <form @submit.prevent="register" class="register-form">
+                <fieldset>
+                    <label for="username">用户名：</label>
+                    <input id="username" type="text" v-model="username" required />
+                </fieldset>
+                <fieldset>
+                    <label for="password">密&nbsp;&nbsp;&nbsp;码：</label>
+                    <input id="password" type="password" v-model="password" required />
+                </fieldset>
+                <fieldset>
+                    <label for="password_confirm">密码确认：</label>
+                    <input id="password_confirm" type="password" v-model="password_confirm" required />
+                </fieldset>
+                <fieldset>
+                    <button type="submit">提交</button>
+                </fieldset>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -89,6 +91,9 @@
 </script>
 
 <style>
+    .register-form-wrap {
+        height: 100%;
+    }
     .register-form {
         margin: 0 auto;
         width: 500px;

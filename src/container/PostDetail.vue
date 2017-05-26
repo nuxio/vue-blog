@@ -1,47 +1,53 @@
 <template>
-    <div class="post-detail flex-grow-2">
-        <div v-if="post.loading">
-            <h2>加载中...</h2>
-        </div>
-        <div v-if="!post.loading && post.msg">{{post.msg}}</div>
-        <div v-if="!post.loading && post.title">
-            <h2>{{post.title}}</h2>
-            <div class="post-base-info">
-                <span>
-                    作者：<router-link :to="`/user/${post.author}`">{{post.author}}</router-link> &nbsp;
-                </span>
-                <span>
-                    发布于：{{create_time}} &nbsp;
-                </span>
-                <span>
-                    浏览次数：{{post.visit}} &nbsp;
-                </span>
-                <a href="javascript:;" @click="vote" :style="{color: is_voted ? '#dd4b39' : 'inherit'}">
-                    <i 
-                        :class="['fa', is_voted ? 'fa-thumbs-up' : 'fa-thumbs-o-up']" 
-                        aria-hidden="true"
-                    ></i>
-                    ({{post.up}})
-                </a>
+    <div class="flex-grow-2 ">
+        <div class="post-detail pannel">
+            <div v-if="post.loading">
+                <h2>加载中...</h2>
             </div>
-            <div v-if="is_login">
-                <router-link 
-                    :to="`/create/${post._id}`" 
-                    v-if="post.author === user_info.username"
-                >
-                    编辑
-                </router-link>
-                <a 
-                    href="javascript:;" 
-                    @click="deletePost" 
-                    v-if="post.author === user_info.username"
-                >
-                    删除
-                </a>
+            <div v-if="!post.loading && post.msg">{{post.msg}}</div>
+            <div v-if="!post.loading && post.title">
+                <h2>{{post.title}}</h2>
+                <div class="post-base-info">
+                    <span>
+                        作者：<router-link :to="`/user/${post.author}`">{{post.author}}</router-link> &nbsp;
+                    </span>
+                    <span>
+                        发布于：{{create_time}} &nbsp;
+                    </span>
+                    <span>
+                        浏览次数：{{post.visit}} &nbsp;
+                    </span>
+                    <a href="javascript:;" @click="vote" :style="{color: is_voted ? '#dd4b39' : 'inherit'}">
+                        <i 
+                            :class="['fa', is_voted ? 'fa-thumbs-up' : 'fa-thumbs-o-up']" 
+                            aria-hidden="true"
+                        ></i>
+                        ({{post.up}})
+                    </a>
+                    <template v-if="is_login">
+                        <router-link 
+                            :to="`/create/${post._id}`" 
+                            title="编辑"
+                            class="post-edit-btn"
+                            v-if="post.author === user_info.username"
+                        >
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </router-link>
+                        <a 
+                            href="javascript:;" 
+                            title="删除"
+                            class="post-delete-btn"
+                            @click="deletePost" 
+                            v-if="post.author === user_info.username"
+                        >
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </a>
+                    </template>
+                </div>
+                <div class="post-content markdown-body" v-html="marked_content"></div>
             </div>
-            <div class="post-content markdown-body" v-html="marked_content"></div>
+            <comment :post-id="$route.params.post_id" :marked="marked"></comment>
         </div>
-        <comment :post-id="$route.params.post_id" :marked="marked"></comment>
     </div>
 </template>
 
@@ -152,9 +158,18 @@
     @import "../assets/github-markdown.css";
     @import "../assets/atom-one-light.css";
 
+    .post-detail {
+        height: 100%;
+    }
     .post-content {
         padding: 10px;
         border-top: 1px solid #e5e5e5;
         border-bottom: 1px solid #e5e5e5;
+    }
+    .post-edit-btn, .post-delete-btn {
+        padding: 0 5px;
+    }
+    .post-delete-btn {
+        color: #F48024;
     }
 </style>

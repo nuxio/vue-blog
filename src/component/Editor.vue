@@ -11,7 +11,7 @@
             </ul>
         </div>
         <div class="editor-input-wrap" v-show="!view">
-            <textarea class="editor-input" v-model="content"></textarea>
+            <textarea class="editor-input" v-model="content" ref="input" @keydown="watchInput"></textarea>
         </div>
         <div class="editor-preview-wrap markdown-body" v-if="view">
             <div v-html="content_preview"></div>
@@ -21,6 +21,7 @@
 
 <script>
     import marked from 'marked';
+    import range from '../util/range';
 
     import('../util/highlight.min.js').then(hljs => { 
         marked.setOptions({
@@ -87,6 +88,26 @@
             }
         },
         methods: {
+            insertContent(content) {
+                let textarea = this.$refs.input;
+                let value = textarea.value;
+                let point = range.getCursorPosition(textarea);
+                let lastChart = value.substring(point - 1, point);
+                let lastFourCharts = value.substring(point - 4, point);
+                if (lastChart != '\n' && value != '' && lastFourCharts != '    ') {
+                    content = '\n' + content;
+                    range.insertAfterCursor(textarea, content);
+                } else {
+                    range.insertAfterCursor(textarea, content);
+                }
+            },
+            watchInput(e) {
+                if(e.keyCode === 9) {
+                    e.preventDefault();
+                    this.insertContent('    ');
+                    return false;
+                }
+            },
             expand() {
                 this.expanded = !this.expanded;
             },
@@ -143,6 +164,7 @@
         width: 100%;
         color: #fff;
         font-family: 'sans-serif';
+        font-size: 16px;
         outline: none;
         background-color: transparent;
         border: 0;

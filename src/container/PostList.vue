@@ -53,7 +53,6 @@
                 page: this.page,
                 author: this.author
             };
-            console.log(this.author);
             this.requestPostList(query);
         }
     }

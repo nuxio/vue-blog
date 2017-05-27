@@ -60,15 +60,14 @@
     import { URL_BLOG_VOTE, URL_BLOG_DELETE } from '../store/api';
     import { POST_VOTE_UP, POST_VOTE_DOWN } from '../store/mutation-types';
 
-    let hljs = null;
-    import('../util/highlight.min.js').then(h => { hljs = h; });
-
-    marked.setOptions({
-        sanitize: true,
-        highlight: function (code) {
-            return hljs.highlightAuto(code).value;
-        }
-    });
+    import('../util/highlight.min.js').then(hljs => { 
+        marked.setOptions({
+            sanitize: true,
+            highlight: function (code) {
+                return hljs.highlightAuto(code).value;
+            }
+        });
+     });
 
     export default {
         components: { Comment },

@@ -21,16 +21,16 @@
 
 <script>
     import marked from 'marked';
-    let hljs = null;
-    import('../util/highlight.min.js').then(h => { hljs = h; });
 
-    marked.setOptions({
-        sanitize: true,
-        highlight: function (code) {
-            return hljs.highlightAuto(code).value;
-        }
+    import('../util/highlight.min.js').then(hljs => { 
+        marked.setOptions({
+            sanitize: true,
+            highlight: function (code) {
+                return hljs.highlightAuto(code).value;
+            }
+        });
     });
-
+    
     export default {
         name: 'vue-editor',
         props: {

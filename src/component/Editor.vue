@@ -21,7 +21,8 @@
 
 <script>
     import marked from 'marked';
-    import hljs from '../util/highlight.min.js';
+    let hljs = null;
+    import('../util/highlight.min.js').then(h => { hljs = h; });
 
     marked.setOptions({
         sanitize: true,

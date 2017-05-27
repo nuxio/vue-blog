@@ -1,9 +1,9 @@
 <template>
     <div class="flex-grow-2">
-        <div class="post-list pannel">
+        <div class="post-list-wrap pannel">
             <div v-if="loading && !list.length">加载中...</div>
             <div v-if="!loading && !list.length">还没有哦~</div>
-            <ul v-if="!loading && list.length">
+            <ul v-if="!loading && list.length" class="post-list">
                 <post-list-item 
                     v-for="item in list" 
                     :key="item._id" 
@@ -26,6 +26,11 @@
     import Paging from '../component/Paging.vue';
 
     export default {
+        props: {
+            author: {
+                type: String
+            }
+        },
         components: { PostListItem, Paging },
         data() {
             return {};
@@ -44,14 +49,22 @@
             ...mapActions(['requestPostList'])
         },
         mounted() {
-            this.requestPostList({page: this.page});
+            let query = {
+                page: this.page,
+                author: this.author
+            };
+            console.log(this.author);
+            this.requestPostList(query);
         }
     }
 </script>
 
 <style>
-    .post-list {
+    .post-list-wrap {
         height: 100%;
         position: relative;
+    }
+    .post-list {
+        margin-bottom: 70px;
     }
 </style>

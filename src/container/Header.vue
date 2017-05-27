@@ -1,29 +1,28 @@
 <template>
     <header>
-        <div class="home">
-            <h1><router-link to="/">Hello Vue!</router-link></h1>
-        </div>
-        <div class="logo">
-            <img src="../assets/logo.png" alt="Hello Vue!" />
-        </div>
-        <div class="nav" @mouseenter="showUserMenu" @mouseleave="hideUserMenu">
-            <template v-if="is_login">
-                <router-link class="user-name" :to="`/user/${user_info.username}`">
-                    <img :src="user_info.avatar_url" />
-                    {{user_info.username}}
-                </router-link>
-                <div class="user-menu" v-show="user_menu_show">
-                    <ul>
-                        <li><router-link to="/create">发布</router-link></li>
-                        <li><a @click="logout" href="javascript:;">退出登录</a></li>
-                    </ul>
-                </div>
-            </template>
-            <template v-else>
-                <router-link class="user-name" to="/login">登录</router-link>
-                <router-link class="user-name" to="/register">注册</router-link>
-            </template>
-        </div>
+        <nav>
+            <div class="home">
+                <h1><router-link to="/"><img src="../assets/logo.png" alt="Hello Vue!" />Hello Vue!</router-link></h1>
+            </div>
+            <div class="user-nav" @mouseenter="showUserMenu" @mouseleave="hideUserMenu">
+                <template v-if="is_login">
+                    <router-link class="user-name" :to="`/user/${user_info.username}`">
+                        <img :src="user_info.avatar_url" />
+                        {{user_info.username}}
+                    </router-link>
+                    <div class="user-menu" v-show="user_menu_show">
+                        <ul>
+                            <li><router-link to="/create">发布</router-link></li>
+                            <li><a @click="logout" href="javascript:;">退出登录</a></li>
+                        </ul>
+                    </div>
+                </template>
+                <template v-else>
+                    <router-link class="user-name" to="/login">登录</router-link>
+                    <router-link class="user-name" to="/register">注册</router-link>
+                </template>
+            </div>
+        </nav>
     </header>
 </template>
 
@@ -72,23 +71,28 @@
 
 <style>
     header {
-        display: flex;
-        justify-content: space-around;
-        background-color: #489fdf;
+        background-color: #333;
         margin-bottom: 50px;
     }
+    nav {
+        margin: 0 auto;
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+    }
     .home >h1 >a {
-        color: #fff;
+        color: #42b983;
     }
     .home >h1 >a:hover {
-        border-bottom-color: #fff;
+        border-bottom: 0;
     }
-    .logo, .logo>img {
-        width: 40px;
-        height: 40px;
-        align-self: center;
+    .home >h1 img {
+        width: 30px;
+        height: 30px;
+        vertical-align: middle;
+        margin-right: 10px;
     }
-    .nav {
+    .user-nav {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -116,7 +120,7 @@
         position: absolute;
         padding: 0 15px;
         background-color: #fff;
-        top: 75px;
+        top: 65px;
         border-radius: 5px;
         border: 1px solid #42b983;
         z-index: 100;

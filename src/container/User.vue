@@ -1,22 +1,29 @@
 <template>
     <div class="flex-grow-2">
-        <div class="user-profile">
-            <div class="user-face">
-                <div class="user-avatar">
-                    <img :src="user.avatar_url" />
+        <div class="pannel">
+            <h2>基本信息</h2>
+            <div class="user-profile">
+                <div class="user-face">
+                    <div class="user-avatar">
+                        <img :src="user.avatar_url" />
+                    </div>
+                    <h2>{{ username }}</h2>
                 </div>
-                <h2 class="user-name">{{ username }}</h2>
+                <div>
+                    <p>邮箱：{{user.email}}</p>
+                    <p>电话：{{user.mobile}}</p>
+                    <p>性别：{{user.gender}}</p>
+                    <p>简介：{{user.introduce}}</p>
+                    <p v-if="user.username == login_user.username">
+                        <router-link :to="`/user/${user.username}/edit`">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>编辑
+                        </router-link>
+                    </p>
+                </div>
             </div>
-            <div>
-                <p>邮箱：{{user.email}}</p>
-                <p>电话：{{user.mobile}}</p>
-                <p>性别：{{user.gender}}</p>
-                <p>简介：{{user.introduce}}</p>
-                <p v-if="user.username == login_user.username">
-                    <router-link :to="`/user/${user.username}/edit`">
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>编辑
-                    </router-link>
-                </p>
+            <h2>博客列表</h2>
+            <div class="user-post-list">
+                <post-list :author="$route.params.username" />
             </div>
         </div>
     </div>
@@ -24,8 +31,10 @@
 
 <script>
     import { mapState, mapActions } from 'vuex';
+    import PostList from './PostList.vue';
 
     export default {
+        components: { PostList },
         data() {
             return {
                 username: ''
@@ -75,5 +84,6 @@
         height: 150px;
         border-radius: 50%;
         background-color: #eee;
+        overflow: hidden;
     }
 </style>

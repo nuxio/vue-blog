@@ -61,7 +61,13 @@ export default {
 
             commit({type: REQUEST_POST_LIST, page: payload.page});
 
-            GET(URL_GET_POST_LIST, {page: payload.page, limit: state.limit})
+            let data = {page: payload.page, limit: state.limit};
+
+            if(payload.author) {
+                data.author = payload.author;
+            }
+
+            GET(URL_GET_POST_LIST, data)
             .then(json => {
                 if(json.msg === 'ok') {
                     commit({

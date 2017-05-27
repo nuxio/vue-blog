@@ -3,6 +3,7 @@ import router from './route';
 import store from './store';
 import { USER_LOGIN } from './store/mutation-types';
 import moment from 'moment';
+import momentZh from 'moment/locale/zh-cn';
 
 // 时间展示设置为中文
 moment.locale('zh-cn');

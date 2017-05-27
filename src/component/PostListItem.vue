@@ -2,7 +2,7 @@
     <li class="post-item">
         <div class="post-item-author">
             <router-link :to="`/user/${author}`">
-                <img :src="authorAvatarUrl" class="avatar" />
+                <img :src="authorAvatarUrl" class="avatar" /><br />
                 <span>{{author}}</span>
             </router-link>
         </div>

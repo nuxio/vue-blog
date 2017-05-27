@@ -32,7 +32,8 @@ module.exports = {
                 test: /\.css$/,
                 // use: ['style-loader', 'css-loader']
                 use: ExtractTextPlugin.extract({
-                    use: 'css-loader'
+                    use: 'css-loader',
+                    fallback: 'vue-style-loader'
                 })
             },
             {
@@ -65,8 +66,14 @@ module.exports = {
         disableHostCheck: true
     },
     plugins: [
+        // moment 忽略locale文件
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
         // 抽离css到单独的文件
-        new ExtractTextPlugin('style.[contentHash:8].css'),
+        new ExtractTextPlugin({
+            filename: 'style.[contentHash:8].css',
+            allChunks: true
+        }),
 
         // 抽离公共代码，名称可以指定到一个入口文件的名称，也可以单独指定
         new webpack.optimize.CommonsChunkPlugin({

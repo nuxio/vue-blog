@@ -56,10 +56,12 @@
     import marked from 'marked';
     import { mapActions, mapState, mapMutations } from 'vuex';
     import { post as POST } from '../util/fetch';
-    import hljs from '../util/highlight.min.js';
     import Comment from './Comment.vue';
     import { URL_BLOG_VOTE, URL_BLOG_DELETE } from '../store/api';
     import { POST_VOTE_UP, POST_VOTE_DOWN } from '../store/mutation-types';
+
+    let hljs = null;
+    import('../util/highlight.min.js').then(h => { hljs = h; });
 
     marked.setOptions({
         sanitize: true,

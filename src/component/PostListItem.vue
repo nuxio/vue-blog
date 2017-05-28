@@ -65,13 +65,11 @@
     .post-item {
         display: flex;
         margin-bottom: 20px;
-        border: 1px dashed;
-        border-radius: 5%;
-        box-shadow: 1px 1px 1px;
+        border: 1px solid #eee;
+        border-radius: 8px;
     }
     .post-item-author {
-        width: 100px;
-        margin-right: 20px;
+        width: 80px;
         text-align: center;
         padding: 5px;
     }

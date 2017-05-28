@@ -16,6 +16,7 @@
                     <input id="password_confirm" type="password" v-model="password_confirm" required />
                 </fieldset>
                 <fieldset>
+                    <label>&nbsp;</label>
                     <button type="submit">提交</button>
                 </fieldset>
             </form>

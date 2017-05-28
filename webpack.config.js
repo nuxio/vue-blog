@@ -71,7 +71,7 @@ module.exports = {
 
         // 抽离css到单独的文件
         new ExtractTextPlugin({
-            filename: 'style.[contentHash:8].css',
+            filename: process.env.NODE_ENV === 'production' ? 'style.[contentHash:8].css' : 'style.css',
             allChunks: true
         }),
 

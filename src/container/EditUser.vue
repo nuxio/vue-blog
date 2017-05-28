@@ -110,6 +110,7 @@
                     } else {
                         alert(json.msg);
                     }
+                    this.$refs.avatar_input.value = '';
                 });
             },
             // 保存头像

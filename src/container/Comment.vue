@@ -28,7 +28,7 @@
             <template v-if="is_login">
                 <h3 class="sub-title">我有话说：</h3>
                 <form @submit.prevent="submitComment">
-                    <editor v-model="content" :height="200" :width="700" display="block"></editor>
+                    <editor v-model="content" height="200px" width="700px" display="block"></editor>
                     <br />
                     <button type="submit" :disabled="loading_submit">提交</button>
                 </form>

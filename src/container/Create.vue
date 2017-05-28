@@ -10,8 +10,8 @@
                 <label>内容：</label>
                 <editor 
                     v-model="content"
-                    :height="500"
-                    :width="800"
+                    height="350px"
+                    :width="editor_width"
                 ></editor>
             </fieldset>
             <fieldset class="edit-form-field">
@@ -38,8 +38,14 @@
                 title: '',
                 content: '',
                 tags: '',
-                post_id: ''
+                post_id: '',
+                client_width: 0
             };
+        },
+        computed: {
+            editor_width() {
+                return this.client_width > 768 ? '75%' : '100%';
+            }
         },
         methods: {
             change(c) {
@@ -87,6 +93,11 @@
                         alert(json.msg);
                     }
                 });
+            },
+            setEditorWidth() {
+                window.onresize = () => {
+                    this.client_width = document.body.clientWidth;
+                }
             }
         },
         mounted() {
@@ -94,6 +105,8 @@
             if(this.post_id) {
                 this.getEditPost();
             }
+            this.client_width = document.body.clientWidth;
+            this.setEditorWidth();
         }
     }
 </script>
@@ -101,10 +114,5 @@
 <style>
     .edit-form {
         height: 100%;
-    }
-    .edit-form-field {
-        margin: 10px 0;
-        height: 30px;
-        line-height: 30px;
     }
 </style>

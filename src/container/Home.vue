@@ -51,7 +51,14 @@
         }
         .flex-grow-1,
         .flex-grow-2 {
-            flex: auto;
+            flex: 0;
+        }
+        fieldset {
+            display: flex;
+        }
+        fieldset >label, fieldset > input[type="text"], fieldset > input[type="password"] {
+            width: 100%;
+            text-align: left;
         }
     }
     .fadeOut,.fadeIn {

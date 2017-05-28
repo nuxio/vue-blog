@@ -8,6 +8,9 @@
                 <li class="editor-nav-item" title="预览" @click="preview">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </li>
+                <li class="editor-nav-item" title="上传图片" @click="triggerUpload">
+                    <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                </li>
             </ul>
         </div>
         <div class="editor-input-wrap" v-show="!view">
@@ -16,11 +19,15 @@
         <div class="editor-preview-wrap markdown-body" v-if="view">
             <div v-html="content_preview"></div>
         </div>
+
+        <input type="file" ref="upload" class="editor-file-input" @change="upload" />
     </div>
 </template>
 
 <script>
     import marked from 'marked';
+    import { upload as UPLOAD } from '../util/fetch';
+    import { URL_USER_UPLOAD_POST_IMG } from '../store/api';
     import range from '../util/range';
 
     import('../util/highlight.min.js').then(hljs => { 
@@ -39,11 +46,9 @@
                 type: String
             },
             height: {
-                type: Number,
                 default: 300
             },
             width: {
-                type: Number,
                 default: 500
             },
             display: {
@@ -73,8 +78,8 @@
                     } 
                     : 
                     {
-                        height: this.height + 'px',
-                        width: this.width + 'px',
+                        height: this.height,
+                        width: this.width,
                         display: this.display
                     };
             }
@@ -116,7 +121,31 @@
                 if(this.view) {
                     this.content_preview = marked(this.content);
                 }
-            }
+            },
+            triggerUpload() {
+                this.$refs.upload.click();
+            },
+            // 上传图片
+            upload(e) {
+                if(!e.target.value) {
+                    return false;
+                }
+                let formData = new FormData();
+                formData.append('img', e.target.files[0]);
+
+                this.uploading = true;
+
+                UPLOAD({ url: URL_USER_UPLOAD_POST_IMG, formData })
+                .then(json => {
+                    this.uploading = false;
+                    if(json.msg === 'ok') {
+                        this.insertContent(`![](${json.img_url})`);
+                    } else {
+                        alert(json.msg);
+                    }
+                    this.$refs.upload.value = '';
+                });
+            },
         }
     }
 </script>
@@ -149,6 +178,7 @@
         width: 25px;
         text-align: center;
         cursor: pointer;
+        line-height: 25px;
     }
     .editor-nav-item:hover {
         background-color: #eee;
@@ -173,5 +203,8 @@
         background-color: #fff;
         overflow: auto;
         height: calc(100% - 55px);
+    }
+    .editor-file-input {
+        display: none;
     }
 </style>

@@ -96,7 +96,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 130px;
+        max-width: 130px;
+        min-width: 80px;
     }
     .user-name {
         display: inline-block;

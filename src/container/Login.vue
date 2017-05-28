@@ -98,6 +98,7 @@
     }
     .login-form {
         margin: 0 auto;
-        width: 500px;
+        width: 100%;
+        max-width: 500px;
     }
 </style>

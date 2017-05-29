@@ -80,6 +80,11 @@
         display: flex;
         justify-content: space-between;
     }
+    @media (max-width: 768px) {
+        nav {
+            width: 95%;
+        }
+    }
     .home >h1 >a {
         color: #42b983;
     }

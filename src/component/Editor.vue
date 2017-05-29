@@ -105,6 +105,8 @@
                 } else {
                     range.insertAfterCursor(textarea, content);
                 }
+                this.$refs.input.focus();
+                this.content = this.$refs.input.value;
             },
             watchInput(e) {
                 if(e.keyCode === 9) {

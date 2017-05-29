@@ -106,7 +106,7 @@
                 .then(json => {
                     this.uploading = false;
                     if(json.msg === 'ok') {
-                        this.avatar_url = json.avatar_url;
+                        this.avatar_url = json.url;
                     } else {
                         alert(json.msg);
                     }
@@ -164,11 +164,10 @@
 <style>
     .edit-wrap {
         display: flex;
-        margin-top: 50px;
         height: 100%;
     }
     .edit-avatar-wrap {
-        width: 200px;
+        width: 30%;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -206,5 +205,17 @@
     }
     .avatar-input {
         display: none;
+    }
+    .edit-user-form {
+        width: 65%;
+    }
+    @media (max-width: 768px)  {
+        .edit-wrap {
+            flex-direction: column;
+        }
+        .edit-avatar-wrap, .edit-user-form {
+            width: 100%;
+            margin: 0;
+        }
     }
 </style>

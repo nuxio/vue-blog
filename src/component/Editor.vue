@@ -139,7 +139,7 @@
                 .then(json => {
                     this.uploading = false;
                     if(json.msg === 'ok') {
-                        this.insertContent(`![](${json.img_url})`);
+                        this.insertContent(`![](${json.url})`);
                     } else {
                         alert(json.msg);
                     }

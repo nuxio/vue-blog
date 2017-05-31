@@ -46,7 +46,6 @@
 
 <style>
     .paging {
-        width: 100%;
         display: flex;
         height: 50px;
         align-items: center;
@@ -55,13 +54,14 @@
         flex-wrap: wrap;
         position: absolute;
         bottom: 10px;
+        padding: 0 10px;
+        justify-content: space-between;
     }
     .page-item {
         height: 30px;
         padding: 0 10px;
         line-height: 30px;
         cursor: pointer;
-        margin-right: 10px;
         border-radius: 3px;
     }
     .page-item:hover, .page-item-active {

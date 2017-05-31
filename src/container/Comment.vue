@@ -7,10 +7,10 @@
             <ul v-if="!loading && list.length">
                 <li v-for="(c, index) in list" class="comment-item">
                     <div class="comment-item-user">
-                        <router-link :to="`/user/${c.author}`">
-                            <img :src="c.author_avatar_url" />
+                        <router-link :to="`/user/${c.author.username}`">
+                            <img :src="c.author.avatar_url" />
                             <br />
-                            {{c.author}}
+                            {{c.author.username}}
                         </router-link>
                     </div>
                     <div>
@@ -19,7 +19,7 @@
                             <a href="javascript:;" @click="vote(c)">
                                 <i :class="['fa', isVoted(c.ups) ? 'fa-thumbs-up' : 'fa-thumbs-o-up']" aria-hidden="true"></i>({{c.up}})
                             </a>
-                            <a href="javascript:;" v-if="is_login && c.author === user_info.username" @click="deleteComment(c._id)">删除</a>
+                            <a href="javascript:;" v-if="is_login && c.author.username === user_info.username" @click="deleteComment(c._id)">删除</a>
                         </div>
                         <div class="comment-item-content markdown-body" v-html="getMarkedContent(c.content)"></div>
                     </div>
@@ -125,7 +125,6 @@
                     alert('您还未登录，请先登录');
                     return false;
                 }
-                if(this.isVoted(c.ups)) return false;
 
                 this.loading_vote = true;
 

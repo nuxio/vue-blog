@@ -16,6 +16,7 @@
     import VueHeader from './Header.vue';
     import VueFooter from './Footer.vue';
     import '../assets/global.css';
+    import '../assets/default_avatar.jpg';
 
     export default {
         data() { 

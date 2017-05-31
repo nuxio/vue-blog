@@ -9,7 +9,7 @@
                 <h2>{{post.title}}</h2>
                 <div class="post-base-info">
                     <span>
-                        作者：<router-link :to="`/user/${post.author}`">{{post.author}}</router-link> &nbsp;
+                        作者：<router-link :to="`/user/${post.author.username}`">{{post.author.username}}</router-link> &nbsp;
                     </span>
                     <span>
                         发布于：{{create_time}} &nbsp;
@@ -29,7 +29,7 @@
                             :to="`/create/${post._id}`" 
                             title="编辑"
                             class="post-edit-btn"
-                            v-if="post.author === user_info.username"
+                            v-if="post.author.username === user_info.username"
                         >
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                         </router-link>
@@ -38,7 +38,7 @@
                             title="删除"
                             class="post-delete-btn"
                             @click="deletePost" 
-                            v-if="post.author === user_info.username"
+                            v-if="post.author.username === user_info.username"
                         >
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                         </a>

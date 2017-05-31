@@ -10,8 +10,10 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, './dist'),
+        // 指定打包生成的文件的引用路径，给后面的 HtmlWebpackPlugin 服务，可配置为CDN地址
         publicPath: '/dist/',
-        filename: '[name].js'
+        filename: 'js/[name].js',
+        chunkFilename: 'js/[name].js'
     },
     module: {
         rules: [
@@ -42,7 +44,10 @@ module.exports = {
             },
             {
                 test: /\.(jpg|png|jpeg)$/,
-                loader: 'file-loader'
+                loader: 'file-loader',
+                query: {
+                    name: 'imgs/[name].[ext]'
+                }
             }
         ]
     },
@@ -55,12 +60,15 @@ module.exports = {
     devtool: '#eval-source-map',
     devServer: {
         // inline和hot这两个参数，只写在这里会报错 [HMR] Hot Module Replacement is disabled.
-        // 是因为没有加 new webpack.HotModuleReplacementPlugin()这个plugin
+        // 是因为没有加 new webpack.HotModuleReplacementPlugin()这个插件
         // 写在了package.json的scripts里 "dev": "webpack-dev-server --inline --hot"
         // inline: true,
         // hot: true,
+        // index.html路径
         // 所有请求都用Index.html响应
-        historyApiFallback: true,
+        historyApiFallback: {
+            index: './index.html'
+        },
         // 不显示编译信息，只显示错误
         noInfo: true,
         disableHostCheck: true
@@ -71,7 +79,7 @@ module.exports = {
 
         // 抽离css到单独的文件
         new ExtractTextPlugin({
-            filename: process.env.NODE_ENV === 'production' ? 'style.[contentHash:8].css' : 'style.css',
+            filename: process.env.NODE_ENV === 'production' ? 'css/style.[contentHash:8].css' : 'css/style.css',
             allChunks: true
         }),
 
@@ -92,7 +100,8 @@ module.exports = {
 };
 
 if(process.env.NODE_ENV === 'production') {
-    module.exports.output.filename = '[name].[chunkhash:8].js';
+    module.exports.output.filename = 'js/[name].[chunkhash:8].js';
+    module.exports.output.chunkFilename = 'js/[name].[chunkhash:8].js';
     module.exports.devtool = '#source-map';
     module.exports.plugins = (module.exports.plugins || []).concat([
         // 用于定义的插件，为会经过打包的文件中引用到process.env.NODE_ENV 的地方，替换成"production"
@@ -102,19 +111,19 @@ if(process.env.NODE_ENV === 'production') {
             }
         }),
 
+        // 按模块出现的次数分配标识？用于获得更短的标识，减少总文件大小
+        new webpack.optimize.OccurrenceOrderPlugin(),
+
         // 压缩JS
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
             }
         }),
-        
-        // 将名称写到html中
+
+        // 将打包生成的文件名称写到html中
         new HtmlWebpackPlugin({
             template: './index.html'
-        }),
-
-        // 按模块出现的次数分配标识？用于获得更短的标识，减少总文件大小
-        new webpack.optimize.OccurrenceOrderPlugin()
+        })
     ]);
 }

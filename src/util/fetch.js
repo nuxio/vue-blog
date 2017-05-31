@@ -38,8 +38,7 @@ export const proxy = (o) => {
     // data._csrf = document.querySelector('meta[name="token"]').content;
     let parmas_string = ObjectToParamsString(data);
     let options = {
-        // credentials: o.credentials || 'same-origin', // 携带cookie
-        credentials: 'include', // 开发
+        credentials: process.env.NODE_ENV === 'production' ?  (o.credentials || 'same-origin') : 'include', // 携带cookie
         method
     };
     // 目前只用到GET和POST，剩下的有时间再研究研究
@@ -62,7 +61,7 @@ export const upload = (o) => {
     let options = {
         method: 'POST',
         body: o.formData,
-        credentials: 'include' // 开发
+        credentials: process.env.NODE_ENV === 'production' ?  (o.credentials || 'same-origin') : 'include' // 开发
     };
 
     return fetch(o.url, options)

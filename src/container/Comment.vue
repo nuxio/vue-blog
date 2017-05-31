@@ -30,7 +30,7 @@
                 <form @submit.prevent="submitComment">
                     <editor v-model="content" height="200px" width="100%" display="block"></editor>
                     <br />
-                    <button type="submit" :disabled="loading_submit">提交</button>
+                    <button type="submit" :disabled="loading_submit">{{loading_submit ? '提交中...' : '提交'}}</button>
                 </form>
             </template>
             <div v-else>

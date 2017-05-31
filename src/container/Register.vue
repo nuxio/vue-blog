@@ -17,7 +17,7 @@
                 </fieldset>
                 <fieldset>
                     <label>&nbsp;</label>
-                    <button type="submit">提交</button>
+                    <button type="submit" :disabled="loading">{{loading ? '注册中...' : '注册'}}</button>
                 </fieldset>
             </form>
         </div>
@@ -33,6 +33,7 @@
     export default {
         data() {
             return {
+                loading: false,
                 username: '',
                 password: '',
                 password_confirm: '',
@@ -71,6 +72,8 @@
                     return false;
                 }
 
+                this.loading = true;
+
                 let data = {
                     username: this.username,
                     password: md5(this.password).toString(),
@@ -79,6 +82,8 @@
 
                 POST(URL_USER_REGISTER, data)
                 .then(json => {
+                    this.loading = false;
+
                     if(json.msg === 'ok') {
                         alert('注册成功');
                         this.$router.push('/login');

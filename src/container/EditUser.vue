@@ -11,7 +11,7 @@
                         <span v-else>上传中...</span>
                     </div>
                 </div>
-                <button type="button" @click="saveAvatarUrl" :disbaled="uploading || saving_avatar">保存</button>
+                <button type="button" @click="saveAvatarUrl" :disbaled="uploading || saving_avatar">{{uploading ? '上传中...' : (saving_avatar ? '保存中...' : '保存')}}</button>
             </div>
             <form @submit.prevent="submit" class="edit-user-form">
                 <h3 class="user-name">编辑基本信息</h3>
@@ -33,7 +33,7 @@
                 </fieldset>
                 <fieldset>
                     <label>&nbsp;</label>
-                    <button type="submit">保存</button>
+                    <button type="submit" :disbaled="loading">{{loading ? '保存中...' : '保存'}}</button>
                 </fieldset>
             </form>
         </div>
@@ -57,7 +57,8 @@
                 email: '',
                 introduce: '',
                 gender: '',
-                avatar_url: ''
+                avatar_url: '',
+                loading: false
             };
         },
         computed: {
@@ -140,8 +141,12 @@
                     gender: this.gender
                 };
 
+                this.loading = true;
+
                 POST(URL_USER_INFO.replace(':username', this.username), data)
                 .then(json => {
+                    this.loading = false;
+
                     if(json.msg === 'ok') {
                         alert('保存成功');
                         this.requestUserInfo({ username: this.username });

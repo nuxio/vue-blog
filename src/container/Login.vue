@@ -17,7 +17,7 @@
                 </fieldset>
                 <fieldset>
                     <label>&nbsp;</label>
-                    <button type="submit">登录</button>
+                    <button type="submit" :disabled="loading">{{loading ? '登录中...' : '登录'}}</button>
                 </fieldset>
             </form>
         </div>
@@ -38,7 +38,8 @@
                 username: '',
                 password: '',
                 remember: false,
-                from: ''
+                from: '',
+                loading: false
             };
         },
         beforeRouteEnter: (to, from, next) => {
@@ -66,6 +67,8 @@
                     return false;
                 }
 
+                this.loading = true;
+
                 let data = {
                     username: this.username,
                     password: md5(this.password).toString()
@@ -74,6 +77,8 @@
 
                 POST(URL_USER_LOGIN, data)
                 .then(json => {
+                    this.loading = false;
+
                     if(json.msg === 'ok') {
                         this[USER_LOGIN]({user: json.user, remember: this.remember});
                         alert('登录成功');

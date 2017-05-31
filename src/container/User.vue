@@ -4,9 +4,7 @@
             <h2>基本信息</h2>
             <div class="user-profile">
                 <div class="user-face">
-                    <div class="user-avatar">
-                        <img :src="user.avatar_url" />
-                    </div>
+                    <img :src="user.avatar_url" class="user-avatar" />
                     <h2>{{ username }}</h2>
                 </div>
                 <div>
@@ -80,6 +78,7 @@
         align-items: center;
     }
     .user-avatar {
+        display: block;
         width: 150px;
         height: 150px;
         border-radius: 50%;

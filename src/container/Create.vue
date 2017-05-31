@@ -20,7 +20,7 @@
             </fieldset>
             <fieldset class="edit-form-field">
                 <label>&nbsp;</label>
-                <button type="submit">发布</button>
+                <button type="submit" :disabled="loading">{{loading ? '发布中...' : '发布'}}</button>
             </fieldset>
         </form>
     </div>
@@ -35,6 +35,7 @@
         components: { Editor },
         data() {
             return {
+                loading: false,
                 title: '',
                 content: '',
                 tags: '',
@@ -64,6 +65,8 @@
                     return false;
                 }
 
+                this.loading = true;
+
                 let data = {
                     title: this.title,
                     content: this.content,
@@ -74,6 +77,8 @@
                 
                 POST(url, data)
                 .then(json => {
+                    this.loading = false;
+
                     if(json.msg === 'ok') {
                         alert('发布成功');
                         this.$router.push(`/post/${json.blog_id}`);

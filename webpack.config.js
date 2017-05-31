@@ -64,7 +64,6 @@ module.exports = {
         // 写在了package.json的scripts里 "dev": "webpack-dev-server --inline --hot"
         // inline: true,
         // hot: true,
-        // index.html路径
         // 所有请求都用Index.html响应
         historyApiFallback: {
             index: './index.html'

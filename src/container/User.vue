@@ -22,8 +22,8 @@
                 </div>
             </div>
             <h2>博客列表</h2>
-            <div class="user-post-list">
-                <post-list :author="$route.params.username" />
+            <div class="user-post-list" v-if="user._id">
+                <post-list :author="user._id" />
             </div>
         </div>
     </div>

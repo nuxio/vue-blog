@@ -32,19 +32,50 @@ input {
 input:focus {
     border-color: #42b983;
 }
-button {
+a:hover {
+    border-bottom: 3px solid #42b983;
+}
+
+/** text **/
+.text-center {
+    text-align: center;
+}
+.c-blue {
+    color: #21ade7;
+}
+.c-red {
+    color: #d9534f;
+}
+.c-orange {
+    color: #f0ad4e;
+}
+.c-green {
+    color: #5cb85c;
+}
+
+/** btn **/
+.btn {
     width: 100px;
     height: 34px;
-    color: #fff;
     letter-spacing: 1px;
-    background: #42b983;
     border-bottom: 1px solid #2d78f4;
     outline: medium;
     border: 0;
-    border-radius: 5px;
+    border-radius: 5px; 
+    cursor: pointer;
 }
-a:hover {
-    border-bottom: 3px solid #42b983;
+.btn-primary {
+    background: #42b983;
+    color: #fff;
+}
+.btn-primary {
+    background: #42b983;
+    color: #fff;
+}
+.btn-default {
+    color: #495872;
+    background-color: #f3f4f6;
+    border-color: #e9ecf1;
 }
 
 @import './nprogress.css';
@@ -78,4 +109,16 @@ fieldset > input[type="checkbox"] {
     border-radius: 50%;
     border: 0;
     overflow: hidden;
+}
+.tag-list {
+    display: inline-block;
+}
+.tag-list >li {
+    font-size: 12px;
+    font-weight: normal;
+    color: #fff;
+    background-color: #42b983;
+    padding: 5px;
+    float: left;
+    margin-left: 10px;
 }

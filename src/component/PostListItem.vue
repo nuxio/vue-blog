@@ -7,11 +7,16 @@
             </router-link>
         </div>
         <div class="post-item-info">
-            <h3><router-link :to="`/post/${id}`">{{title}}</router-link></h3>
+            <h3>
+                <router-link :to="`/post/${id}`">{{title}}</router-link>
+                <ul v-if="tags.length" class="tag-list">
+                    <li v-for="tag in tags">{{tag}}</li>
+                </ul>
+            </h3>
             <p class="post-base-info">
-                发布于：{{create_time}} &nbsp; 
-                浏览量：{{visit}} &nbsp; 
-                赞：{{up}}
+                发布于{{create_time}} &nbsp; 
+                <i class="fa fa-eye" aria-hidden="true"></i> ({{visit}}) &nbsp; 
+                <i aria-hidden="true" class="fa fa-thumbs-o-up"></i> ({{up}})
             </p>
         </div>
     </li>
@@ -19,7 +24,6 @@
 
 <script>
     import moment from 'moment';
-    import { mapState } from 'vuex';
 
     export default {
         name: 'post-list-item',
@@ -48,6 +52,10 @@
             },
             up: {
                 type: Number
+            },
+            tags: {
+                type: Array,
+                default: () => []
             }
         },
         data() {

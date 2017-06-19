@@ -6,7 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: {
         main: './src/main.js',
-        vendor: ['vue', 'vue-router', 'vuex']
+        vendor: ['vue', 'vue-router', 'vuex', './src/component/Dialog']
     },
     output: {
         path: path.resolve(__dirname, './dist'),

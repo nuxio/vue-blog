@@ -12,10 +12,10 @@
                         作者：<router-link :to="`/user/${post.author.username}`">{{post.author.username}}</router-link> &nbsp;
                     </span>
                     <span>
-                        发布于：{{create_time}} &nbsp;
+                        发布于{{create_time}} &nbsp;
                     </span>
                     <span>
-                        浏览次数：{{post.visit}} &nbsp;
+                        <i class="fa fa-eye" aria-hidden="true"></i> ({{post.visit}}) &nbsp;
                     </span>
                     <a href="javascript:;" @click="vote" :style="{color: is_voted ? '#dd4b39' : 'inherit'}">
                         <i 
@@ -57,6 +57,7 @@
     import { mapActions, mapState, mapMutations } from 'vuex';
     import { post as POST } from '../util/fetch';
     import Comment from './Comment.vue';
+    import Dialog from '../component/Dialog';
     import { URL_BLOG_VOTE, URL_BLOG_DELETE } from '../store/api';
     import { POST_VOTE_UP, POST_VOTE_DOWN } from '../store/mutation-types';
 
@@ -130,8 +131,7 @@
                 });
             },
             deletePost() {
-                let c = confirm('确认删除此博客？');
-                if(c) {
+                this.$confirm('确认删除此博客？', () => {
                     POST(URL_BLOG_DELETE, {blog_id: this.post_id})
                     .then(json => {
                         if(json.msg === 'ok') {
@@ -141,7 +141,7 @@
                             alert(json.msg);
                         }
                     });
-                }
+                });
             },
             marked(str) {
                 return marked(str);

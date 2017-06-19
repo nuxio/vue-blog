@@ -45,7 +45,7 @@
     .flex-grow-2 {
         flex: 1;
     } 
-    @media (max-width: 768px) {
+    @media (max-width: 1310px) {
         .main {
             flex-direction: column;
             flex: 1;

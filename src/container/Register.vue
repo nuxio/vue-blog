@@ -17,7 +17,7 @@
                 </fieldset>
                 <fieldset>
                     <label>&nbsp;</label>
-                    <button type="submit" :disabled="loading">{{loading ? '注册中...' : '注册'}}</button>
+                    <button type="submit" :disabled="loading" class="btn btn-primary">{{loading ? '注册中...' : '注册'}}</button>
                 </fieldset>
             </form>
         </div>

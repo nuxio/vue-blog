@@ -14,6 +14,7 @@
                     :create-at="item.create_at"
                     :visit="item.visit"
                     :up="item.up"
+                    :tags="item.tags"
                 />
             </ul>
             <paging :page="page" :total_num="total_num" :total_page="total_page" v-on:turn="requestPostList" v-if="!loading && list.length"></paging>

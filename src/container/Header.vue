@@ -28,6 +28,7 @@
 
 <script>
     import { mapState, mapMutations } from 'vuex';
+    import Dialog from '../component/Dialog';
     import { USER_LOGOUT } from '../store/mutation-types';
     import { URL_USER_LOGOUT } from '../store/api';
     import { post as POST} from '../util/fetch';
@@ -53,17 +54,15 @@
                 this.is_login && (this.user_menu_show = false);
             },
             logout() {
-                let c = confirm('确定退出？');
-                if(c) {
-                    POST(URL_USER_LOGOUT)
-                    .then(json => {
+                this.$confirm('确定退出登录？', () => {
+                    POST(URL_USER_LOGOUT).then(json => {
                         if(json.msg === 'ok') {
                             this[USER_LOGOUT]();
                         } else {
-                            alert('退出登录失败，请稍后再试');
+                            this.$alert('退出登录失败，请稍后再试');
                         }
-                    })
-                }
+                    });
+                });
             }
         }
     }
@@ -80,7 +79,7 @@
         display: flex;
         justify-content: space-between;
     }
-    @media (max-width: 768px) {
+    @media (max-width: 1310px) {
         nav {
             width: 95%;
         }

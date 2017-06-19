@@ -1,0 +1,36 @@
+.modal-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+}
+.modal-backdrop {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #000;
+    opacity: 0.5;
+}
+.modal-dialog {
+    background: #fff;
+    position: absolute; 
+    margin: 0px;
+}
+.modal-header {
+    padding: 0 10px;
+    border-bottom: 1px solid #eee;
+}
+.modal-header >.close {
+    float: right;
+    width: 20px;
+    height: 20px;
+}
+.modal-body {
+    padding: 1.33em 10px;
+}
+.modal-footer {
+    padding: 10px;
+    border-top: 1px solid #eee;
+}

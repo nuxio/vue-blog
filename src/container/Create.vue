@@ -20,14 +20,14 @@
             </fieldset>
             <fieldset class="edit-form-field">
                 <label>&nbsp;</label>
-                <button type="submit" :disabled="loading">{{loading ? '发布中...' : '发布'}}</button>
+                <button type="submit" :disabled="loading" class="btn btn-primary">{{loading ? '发布中...' : '发布'}}</button>
             </fieldset>
         </form>
     </div>
 </template>
 
 <script>
-    import Editor from '../component/Editor.vue';
+    import Editor from '../component/Editor';
     import { post as POST, get as GET } from '../util/fetch';
     import { URL_CREATE_POST, URL_GET_POST_DETAIL } from '../store/api';
 

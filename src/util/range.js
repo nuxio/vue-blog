@@ -117,7 +117,6 @@ const insertAfterCursor = (input, value) => {
     }
 }
 
-
 export default {
     insertAfterCursor,
     selectText,

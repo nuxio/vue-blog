@@ -15,7 +15,7 @@
                     </div>
                     <div>
                         <div class="comment-item-info">
-                            {{index+1}}楼·{{getCreateTime(c.create_at)}}
+                            {{index+1}}楼 · {{getCreateTime(c.create_at)}}
                             <a href="javascript:;" @click="vote(c)">
                                 <i :class="['fa', isVoted(c.ups) ? 'fa-thumbs-up' : 'fa-thumbs-o-up']" aria-hidden="true"></i>({{c.up}})
                             </a>
@@ -30,7 +30,7 @@
                 <form @submit.prevent="submitComment">
                     <editor v-model="content" height="200px" width="100%" display="block"></editor>
                     <br />
-                    <button type="submit" :disabled="loading_submit">{{loading_submit ? '提交中...' : '提交'}}</button>
+                    <button type="submit" :disabled="loading_submit" class="btn btn-primary">{{loading_submit ? '提交中...' : '提交'}}</button>
                 </form>
             </template>
             <div v-else>
@@ -46,7 +46,8 @@
     import { RECEIVE_COMMENT_LIST, COMMENT_VOTE_UP, COMMENT_VOTE_DOWN, COMMENT_DELETE } from '../store/mutation-types';
     import { URL_GET_COMMENT_LIST, URL_SUBMIT_COMMENT, URL_COMMENT_VOTE, URL_COMMENT_DELETE } from '../store/api';
     import { get as GET, post as POST } from '../util/fetch';
-    import Editor from '../component/Editor.vue';
+    import Dialog from '../component/Dialog';
+    import Editor from '../component/Editor';
     
     export default {
         components: { Editor },
@@ -82,7 +83,7 @@
             submitComment() {
                 this.content = this.content.trim();
                 if(!this.content) {
-                    alert('请输入评论内容');
+                    this.$alert('请输入评论内容');
                     return false;
                 }
 
@@ -96,7 +97,7 @@
                 .then(json => {
                     this.loading_submit = false;
                     if(json.msg === 'ok') {
-                        alert('评论成功');
+                        this.$alert('评论成功');
                         this.content = '';
                         this.getCommentList();
                     } else {
@@ -122,7 +123,7 @@
             },
             vote(c) {
                 if(!this.is_login) {
-                    alert('您还未登录，请先登录');
+                    this.$alert('您还未登录，请先登录');
                     return false;
                 }
 
@@ -167,8 +168,7 @@
                 return index !== -1;
             },
             deleteComment(id) {
-                let c = confirm('确定删除此条评论？');
-                if(c) {
+                this.$confirm('确定删除此条评论？', () => {
                     POST(URL_COMMENT_DELETE, {comment_id: id})
                     .then(json => {
                         if(json.msg === 'ok') {
@@ -178,7 +178,7 @@
                             alert(json.msg);
                         }
                     });
-                }
+                });
             }
         },
         mounted() {

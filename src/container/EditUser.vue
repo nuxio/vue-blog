@@ -33,7 +33,7 @@
                 </fieldset>
                 <fieldset>
                     <label>&nbsp;</label>
-                    <button type="submit" :disbaled="loading">{{loading ? '保存中...' : '保存'}}</button>
+                    <button type="submit" :disbaled="loading" class="btn btn-primary">{{loading ? '保存中...' : '保存'}}</button>
                 </fieldset>
             </form>
         </div>
@@ -214,7 +214,7 @@
     .edit-user-form {
         width: 65%;
     }
-    @media (max-width: 768px)  {
+    @media (max-width: 1310px)  {
         .edit-wrap {
             flex-direction: column;
         }

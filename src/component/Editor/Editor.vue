@@ -25,12 +25,14 @@
 </template>
 
 <script>
-    import marked from 'marked';
-    import { upload as UPLOAD } from '../util/fetch';
-    import { URL_USER_UPLOAD_POST_IMG } from '../store/api';
-    import range from '../util/range';
+    import './editor.css';
 
-    import('../util/highlight.min.js').then(hljs => { 
+    import marked from 'marked';
+    import { upload as UPLOAD } from '../../util/fetch';
+    import { URL_USER_UPLOAD_POST_IMG } from '../../store/api';
+    import range from '../../util/range';
+
+    import('../../util/highlight.min.js').then(hljs => { 
         marked.setOptions({
             sanitize: true,
             highlight: function (code) {
@@ -151,62 +153,3 @@
         }
     }
 </script>
-
-<style>
-    @import "../assets/github-markdown.css";
-    @import "../assets/atom-one-light.css";
-    
-    
-    .editor-box {
-        vertical-align: top;
-        border: 1px solid #eee;
-        box-shadow: 1px 1px #eee;
-    }
-    .editor-nav-wrap {
-        height: 35px;
-        width: 100%;
-        background-color: #fff;
-        border-bottom: 1px solid #eee;
-    }
-    .editor-nav {
-        height: 100%;
-        padding: 0 10px;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-    }
-    .editor-nav-item {
-        height: 25px;
-        width: 25px;
-        text-align: center;
-        cursor: pointer;
-        line-height: 25px;
-    }
-    .editor-nav-item:hover {
-        background-color: #eee;
-    }
-    .editor-input-wrap {
-        padding: 10px;
-        background-color: #333;
-        height: calc(100% - 55px);
-    }
-    .editor-input {
-        resize: none;
-        height: 100%;
-        width: 100%;
-        color: #fff;
-        font-family: 'sans-serif';
-        font-size: 16px;
-        outline: none;
-        background-color: transparent;
-        border: 0;
-    }
-    .editor-preview-wrap {
-        background-color: #fff;
-        overflow: auto;
-        height: calc(100% - 55px);
-    }
-    .editor-file-input {
-        display: none;
-    }
-</style>

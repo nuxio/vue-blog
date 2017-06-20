@@ -6,7 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: {
         main: './src/main.js',
-        vendor: ['vue', 'vue-router', 'vuex', './src/component/Dialog']
+        vendor: ['vue', 'vue-router', 'vuex']
     },
     output: {
         path: path.resolve(__dirname, './dist'),
@@ -34,8 +34,7 @@ module.exports = {
                 test: /\.css$/,
                 // use: ['style-loader', 'css-loader']
                 use: ExtractTextPlugin.extract({
-                    use: 'css-loader',
-                    fallback: 'vue-style-loader'
+                    use: 'css-loader'
                 })
             },
             {

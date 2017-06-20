@@ -1,5 +1,5 @@
 <template>
-    <footer>
+    <footer class="text-center mt50">
         mafee@2017
     </footer>
 </template>
@@ -11,10 +11,3 @@
         }
     }
 </script>
-
-<style>
-    footer {
-        margin-top: 50px;
-        text-align: center;
-    }
-</style>

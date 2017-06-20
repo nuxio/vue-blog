@@ -26,9 +26,11 @@
 
 <script>
     import { mapMutations, mapState } from 'vuex';
-    import { post as POST } from '../util/fetch';
-    import { URL_USER_LOGIN } from '../store/api';
-    import { USER_LOGIN } from '../store/mutation-types';
+    import Toast from '../../component/Toast';
+    import Dialog from '../../component/Dialog';
+    import { post as POST } from '../../util/fetch';
+    import { URL_USER_LOGIN } from '../../store/api';
+    import { USER_LOGIN } from '../../store/mutation-types';
 
     const md5 = require('crypto-js/md5');
 
@@ -59,11 +61,11 @@
                 this.password = this.password.trim();
 
                 if(!this.username) {
-                    alert('请输入用户名');
+                    this.$toast.warn('请输入用户名');
                     return false;
                 }
                 if(!this.password) {
-                    alert('请输入密码');
+                    this.$toast.warn('请输入密码');
                     return false;
                 }
 
@@ -81,10 +83,10 @@
 
                     if(json.msg === 'ok') {
                         this[USER_LOGIN]({user: json.user, remember: this.remember});
-                        alert('登录成功');
+                        this.$toast.success('登录成功');
                         this.$router.push((this.from && this.from !== '/register') ? this.from : '/');
                     } else {
-                        alert(json.msg);
+                        this.$alert(json.msg);
                     }
                 });
             }
@@ -98,12 +100,12 @@
 </script>
 
 <style>
-    .login-form-wrap {
-        height: 100%;
-    }
-    .login-form {
-        margin: 0 auto;
-        width: 100%;
-        max-width: 500px;
-    }
+.login-form-wrap {
+    height: 100%;
+}
+.login-form {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 500px;
+}
 </style>

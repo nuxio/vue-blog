@@ -11,7 +11,7 @@
                         <span v-else>上传中...</span>
                     </div>
                 </div>
-                <button type="button" @click="saveAvatarUrl" :disbaled="uploading || saving_avatar">{{uploading ? '上传中...' : (saving_avatar ? '保存中...' : '保存')}}</button>
+                <button class="btn btn-primary" type="button" @click="saveAvatarUrl" :disbaled="uploading || saving_avatar">{{uploading ? '上传中...' : (saving_avatar ? '保存中...' : '保存')}}</button>
             </div>
             <form @submit.prevent="submit" class="edit-user-form">
                 <h3 class="user-name">编辑基本信息</h3>
@@ -42,9 +42,11 @@
 
 <script>
     import { mapState, mapActions } from 'vuex';
-    import { post as POST, upload as UPLOAD } from '../util/fetch';
-    import { URL_USER_INFO, URL_USER_UPLOAD_AVATAR } from '../store/api';
-    import { USER_LOGIN } from '../store/mutation-types';
+    import Toast from '../../component/Toast';
+    import Dialog from '../../component/Dialog';
+    import { post as POST, upload as UPLOAD } from '../../util/fetch';
+    import { URL_USER_INFO, URL_USER_UPLOAD_AVATAR } from '../../store/api';
+    import { USER_LOGIN } from '../../store/mutation-types';
 
     export default {
         data() {
@@ -109,7 +111,7 @@
                     if(json.msg === 'ok') {
                         this.avatar_url = json.url;
                     } else {
-                        alert(json.msg);
+                        this.$alert(json.msg);
                     }
                     this.$refs.avatar_input.value = '';
                 });
@@ -125,10 +127,10 @@
                     this.saving_avatar = false;
 
                     if(json.msg === 'ok') {
-                        alert('保存成功');
+                        this.$toast.success('保存成功');
                         this.requestUserInfo({ username: this.username });
                     } else {
-                        alert(json.msg);
+                        this.$alert(json.msg);
                     }
                 });
             },
@@ -148,11 +150,11 @@
                     this.loading = false;
 
                     if(json.msg === 'ok') {
-                        alert('保存成功');
+                        this.$toast.success('保存成功');
                         this.requestUserInfo({ username: this.username });
                         this.$router.push(`/user/${this.username}`);
                     } else {
-                        alert(json.msg);
+                        this.$alert(json.msg);
                     }
                 });
             }
@@ -167,60 +169,60 @@
 </script>
 
 <style>
+.edit-wrap {
+    display: flex;
+    height: 100%;
+}
+.edit-avatar-wrap {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 50px;
+}
+.user-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #eee;
+    position: relative;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+.user-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 0;
+}
+.avatar-upload-btn {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-color: #000;
+    opacity: 0.5;
+    border-radius: 50%;
+    text-align: center;
+    top: 0;
+    left: 0;
+    color: #fff;
+    line-height: 150px;
+    cursor: pointer;
+}
+.avatar-input {
+    display: none;
+}
+.edit-user-form {
+    width: 65%;
+}
+@media (max-width: 1310px)  {
     .edit-wrap {
-        display: flex;
-        height: 100%;
-    }
-    .edit-avatar-wrap {
-        width: 30%;
-        display: flex;
         flex-direction: column;
-        align-items: center;
-        margin-right: 50px;
     }
-    .user-avatar {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        background-color: #eee;
-        position: relative;
-        margin-bottom: 20px;
-        overflow: hidden;
-    }
-    .user-avatar img {
-        display: block;
+    .edit-avatar-wrap, .edit-user-form {
         width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        border: 0;
+        margin: 0;
     }
-    .avatar-upload-btn {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        background-color: #000;
-        opacity: 0.5;
-        border-radius: 50%;
-        text-align: center;
-        top: 0;
-        left: 0;
-        color: #fff;
-        line-height: 150px;
-        cursor: pointer;
-    }
-    .avatar-input {
-        display: none;
-    }
-    .edit-user-form {
-        width: 65%;
-    }
-    @media (max-width: 1310px)  {
-        .edit-wrap {
-            flex-direction: column;
-        }
-        .edit-avatar-wrap, .edit-user-form {
-            width: 100%;
-            margin: 0;
-        }
-    }
+}
 </style>

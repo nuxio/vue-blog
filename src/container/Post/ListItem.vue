@@ -70,25 +70,25 @@
 </script>
 
 <style>
-    .post-item {
-        display: flex;
-        margin-bottom: 20px;
-        border: 1px solid #eee;
-        border-radius: 8px;
-    }
-    .post-item-author {
-        width: 80px;
-        text-align: center;
-        padding: 5px;
-    }
-    .post-item-author>a:hover {
-        border-bottom: 0;
-    }
-    .post-item-info >h3 {
-        margin-top: 0;
-    }
-    .post-base-info {
-        font-size: 14px;
-        color: #7f8c8d;
-    }
+.post-item {
+    display: flex;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+.post-item-author {
+    width: 80px;
+    text-align: center;
+    padding: 5px;
+}
+.post-item-author>a:hover {
+    border-bottom: 0;
+}
+.post-item-info >h3 {
+    margin-top: 0;
+}
+.post-base-info {
+    font-size: 14px;
+    color: #7f8c8d;
+}
 </style>

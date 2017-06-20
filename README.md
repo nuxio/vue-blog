@@ -1,8 +1,3 @@
-# Another blog...
----
+# Another blog.  
 
-┑(￣Д ￣)┍ 
-
-> Vue
-> Vuex
-> Vue-router
+Build with Vue/Vuex/VueRouter.

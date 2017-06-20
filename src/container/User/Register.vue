@@ -25,8 +25,10 @@
 </template>
 
 <script>
-    import { post as POST } from '../util/fetch';
-    import { URL_USER_REGISTER } from '../store/api';
+    import Toast from '../../component/Toast';
+    import Dialog from '../../component/Dialog';
+    import { post as POST } from '../../util/fetch';
+    import { URL_USER_REGISTER } from '../../store/api';
     // md5 需要用require的方式引入，import不行
     const md5 = require('crypto-js/md5');
 
@@ -48,27 +50,27 @@
                 this.password_confirm = this.password_confirm.trim();
 
                 if(!this.username) {
-                    alert('请输入用户名');
+                    this.$toast.warn('请输入用户名');
                     return false;
                 }
                 if(!this.username_regex.test(this.username)) {
-                    alert('用户名格式不正确');
+                    this.$toast.warn('用户名格式不正确');
                     return false;
                 }
                 if(!this.password) {
-                    alert('请输入密码');
+                    this.$toast.warn('请输入密码');
                     return false;
                 }
                 if(!this.password_confirm) {
-                    alert('请输入确认密码');
+                    this.$toast.warn('请输入确认密码');
                     return false;
                 }
                 if(this.password !== this.password_confirm) {
-                    alert('两次输入密码不一致');
+                    this.$toast.warn('两次输入密码不一致');
                     return false;
                 }
                 if(!this.password_regex.test(this.password)) {
-                    alert('请输入长度为6到24的密码');
+                    this.$toast.warn('请输入长度为6到24的密码');
                     return false;
                 }
 
@@ -85,10 +87,10 @@
                     this.loading = false;
 
                     if(json.msg === 'ok') {
-                        alert('注册成功');
+                        this.$toast.success('注册成功');
                         this.$router.push('/login');
                     } else {
-                        alert(json.msg);
+                        this.$alert(json.msg);
                     }
                 });
             }
@@ -97,12 +99,12 @@
 </script>
 
 <style>
-    .register-form-wrap {
-        height: 100%;
-    }
-    .register-form {
-        margin: 0 auto;
-        width: 100%;
-        max-width: 500px;
-    }
+.register-form-wrap {
+    height: 100%;
+}
+.register-form {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 500px;
+}
 </style>

@@ -6,7 +6,7 @@ import Home from './container/Home.vue';
 
 const PostList = () => {
     NProgress.start();
-    let imp = import('./container/PostList.vue');
+    let imp = import('./container/Post/List.vue');
     imp.then(c => NProgress.done());
     return imp;
 };
@@ -23,37 +23,37 @@ const PostList = () => {
 // }
 const PostDetail = () => {
     NProgress.start();
-    let imp = import('./container/PostDetail.vue');
+    let imp = import('./container/Post/Detail.vue');
     imp.then(c => NProgress.done());
     return imp;
 };
 const User = () => {
     NProgress.start();
-    let imp = import('./container/User.vue');
+    let imp = import('./container/User/Info.vue');
     imp.then(c => NProgress.done());
     return imp;
 };
 const EditUser = () => {
     NProgress.start();
-    let imp = import('./container/EditUser.vue');
+    let imp = import('./container/User/Edit.vue');
     imp.then(c => NProgress.done());
     return imp;
 };
 const Login = () => {
     NProgress.start();
-    let imp = import('./container/Login.vue');
+    let imp = import('./container/User/Login.vue');
     imp.then(c => NProgress.done());
     return imp;
 };
 const Register = () => {
     NProgress.start();
-    let imp = import('./container/Register.vue');
+    let imp = import('./container/User/Register.vue');
     imp.then(c => NProgress.done());
     return imp;
 };
 const Create = () => {
     NProgress.start();
-    let imp = import('./container/Create.vue');
+    let imp = import('./container/Post/Create.vue');
     imp.then(c => NProgress.done());
     return imp;
 };

@@ -27,9 +27,11 @@
 </template>
 
 <script>
-    import Editor from '../component/Editor';
-    import { post as POST, get as GET } from '../util/fetch';
-    import { URL_CREATE_POST, URL_GET_POST_DETAIL } from '../store/api';
+    import Editor from '../../component/Editor';
+    import Toast from '../../component/Toast';
+    import Dialog from '../../component/Dialog';
+    import { post as POST, get as GET } from '../../util/fetch';
+    import { URL_CREATE_POST, URL_GET_POST_DETAIL } from '../../store/api';
 
     export default {
         components: { Editor },
@@ -57,11 +59,11 @@
                 this.content = this.content.trim();
 
                 if(!this.title) {
-                    alert('请输入标题');
+                    this.$toast.warn('请输入标题');
                     return false;
                 }
                 if(!this.content) {
-                    alert('请输入内容');
+                    this.$toast.warn('请输入内容');
                     return false;
                 }
 
@@ -80,10 +82,10 @@
                     this.loading = false;
 
                     if(json.msg === 'ok') {
-                        alert('发布成功');
+                        this.$toast.success('发布成功');
                         this.$router.push(`/post/${json.blog_id}`);
                     } else {
-                        alert(json.msg);
+                        this.$alert(json.msg);
                     }
                 });
             },
@@ -95,7 +97,7 @@
                         this.title = json.blog.title;
                         this.tags = json.blog.tags.join('_');
                     } else {
-                        alert(json.msg);
+                        this.$alert(json.msg);
                     }
                 });
             },
@@ -117,7 +119,7 @@
 </script>
 
 <style>
-    .edit-form {
-        height: 100%;
-    }
+.edit-form {
+    height: 100%;
+}
 </style>

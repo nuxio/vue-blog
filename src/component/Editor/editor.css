@@ -1,5 +1,5 @@
-@import "../../assets/github-markdown.css";
-@import "../../assets/atom-one-light.css";
+@import "../../assets/css/github-markdown.css";
+@import "../../assets/css/atom-one-light.css";
 
 .editor-box {
     vertical-align: top;
@@ -49,6 +49,7 @@
     background-color: #fff;
     overflow: auto;
     height: calc(100% - 55px);
+    padding: 10px;
 }
 .editor-file-input {
     display: none;

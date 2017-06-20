@@ -27,7 +27,6 @@
 </template>
 
 <script>
-    
     import './dialog.css';
 
     export default {

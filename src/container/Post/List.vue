@@ -24,8 +24,8 @@
 
 <script>
     import { mapState, mapActions, mapGetters } from 'vuex';
-    import PostListItem from '../component/PostListItem.vue';
-    import Paging from '../component/Paging.vue';
+    import PostListItem from './ListItem.vue';
+    import Paging from '../../component/Paging';
 
     export default {
         props: {
@@ -61,11 +61,11 @@
 </script>
 
 <style>
-    .post-list-wrap {
-        height: 100%;
-        position: relative;
-    }
-    .post-list {
-        margin-bottom: 70px;
-    }
+.post-list-wrap {
+    height: 100%;
+    position: relative;
+}
+.post-list {
+    margin-bottom: 70px;
+}
 </style>

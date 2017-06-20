@@ -29,7 +29,7 @@
 
 <script>
     import { mapState, mapActions } from 'vuex';
-    import PostList from './PostList.vue';
+    import PostList from '../Post/List.vue';
 
     export default {
         components: { PostList },
@@ -67,22 +67,22 @@
 </script>
 
 <style>
-    .user-profile {
-        display: flex;
-        margin-top: 50px;
-    }
-    .user-face {
-        width: 200px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .user-avatar {
-        display: block;
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        background-color: #eee;
-        overflow: hidden;
-    }
+.user-profile {
+    display: flex;
+    margin-top: 50px;
+}
+.user-face {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.user-avatar {
+    display: block;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #eee;
+    overflow: hidden;
+}
 </style>

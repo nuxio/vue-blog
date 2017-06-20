@@ -43,11 +43,12 @@
 <script>
     import moment from 'moment';
     import { mapMutations, mapState } from 'vuex';
-    import { RECEIVE_COMMENT_LIST, COMMENT_VOTE_UP, COMMENT_VOTE_DOWN, COMMENT_DELETE } from '../store/mutation-types';
-    import { URL_GET_COMMENT_LIST, URL_SUBMIT_COMMENT, URL_COMMENT_VOTE, URL_COMMENT_DELETE } from '../store/api';
-    import { get as GET, post as POST } from '../util/fetch';
-    import Dialog from '../component/Dialog';
-    import Editor from '../component/Editor';
+    import { RECEIVE_COMMENT_LIST, COMMENT_VOTE_UP, COMMENT_VOTE_DOWN, COMMENT_DELETE } from '../../store/mutation-types';
+    import { URL_GET_COMMENT_LIST, URL_SUBMIT_COMMENT, URL_COMMENT_VOTE, URL_COMMENT_DELETE } from '../../store/api';
+    import { get as GET, post as POST } from '../../util/fetch';
+    import Toast from '../../component/Toast';
+    import Dialog from '../../component/Dialog';
+    import Editor from '../../component/Editor';
     
     export default {
         components: { Editor },
@@ -97,11 +98,11 @@
                 .then(json => {
                     this.loading_submit = false;
                     if(json.msg === 'ok') {
-                        this.$alert('评论成功');
+                        this.$toast.success('评论成功');
                         this.content = '';
                         this.getCommentList();
                     } else {
-                        alert(json.msg);
+                        this.$alert(json.msg);
                     }
                 });
             },
@@ -114,7 +115,7 @@
                     if(json.msg === 'ok') {
                         this[RECEIVE_COMMENT_LIST]({post_id: this.postId, comments: json.comments});
                     } else {
-                        alert(json.msg);
+                        this.$alert(json.msg);
                     }
                 });
             },
@@ -148,7 +149,7 @@
                             this[COMMENT_VOTE_DOWN](payload);
                         }
                     } else {
-                        alert(json.msg);
+                        this.$alert(json.msg);
                     }
                 });
             },
@@ -172,10 +173,10 @@
                     POST(URL_COMMENT_DELETE, {comment_id: id})
                     .then(json => {
                         if(json.msg === 'ok') {
-                            alert('删除成功');
+                            this.$toast.success('删除成功');
                             this[COMMENT_DELETE]({post_id: this.postId, comment_id: id});
                         } else {
-                            alert(json.msg);
+                            $this.$alert(json.msg);
                         }
                     });
                 });
@@ -188,30 +189,30 @@
 </script>
 
 <style>
-    .comment-item {
-        display: flex;
-        margin-bottom: 15px;
-        border-bottom: 1px solid #e5e5e5;
-    }
-    .comment-item-user {
-        height: 80px;
-        width: 60px;
-        margin-right: 10px;
-    }
-    .comment-item-user img {
-        height: 50px;
-        width: 50px;
-        border-radius: 50%;
-        overflow: hidden;
-    }
-    .comment-item-user>a:hover {
-        border-bottom: 0;
-    }
-    .comment-item-info {
-        font-size: 14px;
-        color: #7f8c8d;
-    }
-    .comment-item-content {
-        padding: 10px 0;
-    }
+.comment-item {
+    display: flex;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.comment-item-user {
+    height: 80px;
+    width: 60px;
+    margin-right: 10px;
+}
+.comment-item-user img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.comment-item-user>a:hover {
+    border-bottom: 0;
+}
+.comment-item-info {
+    font-size: 14px;
+    color: #7f8c8d;
+}
+.comment-item-content {
+    padding: 10px 0;
+}
 </style>

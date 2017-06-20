@@ -7,6 +7,8 @@
 </template>
 
 <script>
+    import './paging.css';
+
     export default {
         props: {
             page: {
@@ -36,36 +38,10 @@
             }
         },
         methods: {
-            turn(page) {
+            turn(page, index) {
                 if((index + 1) == page) return false;
                 this.$emit('turn', page);
             }
         }
     };
 </script>
-
-<style>
-    .paging {
-        display: flex;
-        height: 50px;
-        align-items: center;
-        border: 1px dashed #eee;
-        border-radius: 5px;
-        flex-wrap: wrap;
-        position: absolute;
-        bottom: 10px;
-        padding: 0 10px;
-        justify-content: space-between;
-    }
-    .page-item {
-        height: 30px;
-        padding: 0 10px;
-        line-height: 30px;
-        cursor: pointer;
-        border-radius: 3px;
-    }
-    .page-item:hover, .page-item-active {
-        background-color: #42b983;
-        color: #fff;
-    }
-</style>

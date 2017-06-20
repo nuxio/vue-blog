@@ -55,13 +55,14 @@
     import moment from 'moment';
     import marked from 'marked';
     import { mapActions, mapState, mapMutations } from 'vuex';
-    import { post as POST } from '../util/fetch';
+    import { post as POST } from '../../util/fetch';
     import Comment from './Comment.vue';
-    import Dialog from '../component/Dialog';
-    import { URL_BLOG_VOTE, URL_BLOG_DELETE } from '../store/api';
-    import { POST_VOTE_UP, POST_VOTE_DOWN } from '../store/mutation-types';
+    import Dialog from '../../component/Dialog';
+    import Toast from '../../component/Toast';
+    import { URL_BLOG_VOTE, URL_BLOG_DELETE } from '../../store/api';
+    import { POST_VOTE_UP, POST_VOTE_DOWN } from '../../store/mutation-types';
 
-    import('../util/highlight.min.js').then(hljs => { 
+    import('../../util/highlight.min.js').then(hljs => { 
         marked.setOptions({
             sanitize: true,
             highlight: function (code) {
@@ -126,7 +127,7 @@
                             this[POST_VOTE_DOWN](payload);
                         }
                     } else {
-                        alert(json.msg);
+                        this.$alert(json.msg);
                     }
                 });
             },
@@ -135,10 +136,10 @@
                     POST(URL_BLOG_DELETE, {blog_id: this.post_id})
                     .then(json => {
                         if(json.msg === 'ok') {
-                            alert('删除成功');
+                            this.$toast.success('删除成功');
                             this.$router.push('/');
                         } else {
-                            alert(json.msg);
+                            this.$alert(json.msg);
                         }
                     });
                 });
@@ -156,21 +157,21 @@
 </script>
 
 <style>
-    @import "../assets/github-markdown.css";
-    @import "../assets/atom-one-light.css";
+@import "../../assets/css/github-markdown.css";
+@import "../../assets/css/atom-one-light.css";
 
-    .post-detail {
-        height: 100%;
-    }
-    .post-content {
-        padding: 10px;
-        border-top: 1px solid #e5e5e5;
-        border-bottom: 1px solid #e5e5e5;
-    }
-    .post-edit-btn, .post-delete-btn {
-        padding: 0 5px;
-    }
-    .post-delete-btn {
-        color: #F48024;
-    }
+.post-detail {
+    height: 100%;
+}
+.post-content {
+    padding: 10px;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+}
+.post-edit-btn, .post-delete-btn {
+    padding: 0 5px;
+}
+.post-delete-btn {
+    color: #F48024;
+}
 </style>

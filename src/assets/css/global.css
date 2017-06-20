@@ -55,8 +55,7 @@ a:hover {
 
 /** btn **/
 .btn {
-    width: 100px;
-    height: 34px;
+    padding: 8px 20px;
     letter-spacing: 1px;
     border-bottom: 1px solid #2d78f4;
     outline: medium;
@@ -76,6 +75,14 @@ a:hover {
     color: #495872;
     background-color: #f3f4f6;
     border-color: #e9ecf1;
+}
+
+/** padding margin **/
+.mt50 {
+    margin-top: 50px;
+}
+.mb50 {
+    margin-bottom: 50px;
 }
 
 @import './nprogress.css';

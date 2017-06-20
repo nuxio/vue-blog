@@ -13,10 +13,10 @@
 </template>
 
 <script>
-    import VueHeader from './Header.vue';
-    import VueFooter from './Footer.vue';
-    import '../assets/global.css';
-    import '../assets/default_avatar.jpg';
+    import VueHeader from './Layout/Header.vue';
+    import VueFooter from './Layout/Footer.vue';
+    import '../assets/css/global.css';
+    import '../assets/img/default_avatar.jpg';
 
     export default {
         data() { 
@@ -30,39 +30,39 @@
 </script>
 
 <style>
-    .top-container {
-        display: flex;
-        min-height: 100vh;
-        flex-direction: column;
-    }
+.top-container {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.main {
+    display: flex;
+    flex: 1;
+}
+.flex-grow-1 {
+    flex: 0 0 12em;
+}
+.flex-grow-2 {
+    flex: 1;
+} 
+@media (max-width: 1310px) {
     .main {
-        display: flex;
+        flex-direction: column;
         flex: 1;
     }
-    .flex-grow-1 {
-        flex: 0 0 12em;
-    }
+    .flex-grow-1,
     .flex-grow-2 {
-        flex: 1;
-    } 
-    @media (max-width: 1310px) {
-        .main {
-            flex-direction: column;
-            flex: 1;
-        }
-        .flex-grow-1,
-        .flex-grow-2 {
-            flex: 0;
-        }
-        fieldset {
-            display: flex;
-        }
-        fieldset >label, fieldset > input[type="text"], fieldset > input[type="password"] {
-            width: 100%;
-            text-align: left;
-        }
+        flex: 0;
     }
-    .fadeOut,.fadeIn {
-        animation-duration: .3s;
+    fieldset {
+        display: flex;
     }
+    fieldset >label, fieldset > input[type="text"], fieldset > input[type="password"] {
+        width: 100%;
+        text-align: left;
+    }
+}
+.fadeOut,.fadeIn {
+    animation-duration: .3s;
+}
 </style>

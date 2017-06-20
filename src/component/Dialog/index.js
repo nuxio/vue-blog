@@ -1,6 +1,6 @@
 import Vue from 'vue';
-let DialogConstructor = Vue.extend(require('./dialog.vue'));
-
+import DialogVue from './Dialog.vue';
+let DialogConstructor = Vue.extend(DialogVue);
 
 let Dialog = options => {
     let instance = new DialogConstructor({data: options});
@@ -17,7 +17,6 @@ Vue.prototype.$alert = options => {
 };
 
 Vue.prototype.$confirm = (message, onConfirm, rest) => {
-    console.log(rest);
     let options = {
         message,
         onConfirm,

@@ -14,6 +14,7 @@
             </ul>
         </div>
         <div class="editor-input-wrap" v-show="!view">
+            <div class="editor-placeholder" v-text="placeholder" v-show="show_placeholder"></div>
             <textarea class="editor-input" v-model="content" ref="input" @keydown="watchInput"></textarea>
         </div>
         <div class="editor-preview-wrap markdown-body" v-if="view">
@@ -56,6 +57,10 @@
             display: {
                 type: String,
                 default: 'inline-block'
+            },
+            placeholder: {
+                type: String,
+                default: ''
             }
         },
         data() {
@@ -84,6 +89,9 @@
                         width: this.width,
                         display: this.display
                     };
+            },
+            show_placeholder() {
+                return this.content.length === 0;
             }
         },
         watch: {

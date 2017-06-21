@@ -119,13 +119,20 @@ fieldset > input[type="checkbox"] {
 }
 .tag-list {
     display: inline-block;
+    vertical-align: top;
 }
 .tag-list >li {
-    font-size: 12px;
-    font-weight: normal;
-    color: #fff;
-    background-color: #42b983;
-    padding: 5px;
     float: left;
     margin-left: 10px;
+    color: #fff;
+    background-color: #42b983;
+    padding: 0 5px 3px 5px;
+    border-radius: 5px;
+}
+.btn-normal {
+    color: inherit;
+    border: 0;
+    padding: 0;
+    background-color: #fff;
+    cursor: pointer;
 }

@@ -72,7 +72,11 @@
 
 <style>
 header {
-    background-color: #333;
+    position: relative;
+    background: #fff;
+    border-bottom: 1px solid rgba(30,35,42,.06);
+    box-shadow: 0 1px 3px 0 rgba(0,34,77,.05);
+    background-clip: content-box;
 }
 nav {
     margin: 0 auto;
@@ -109,7 +113,6 @@ nav {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #fff;
 }
 .user-name >img {
     height: 50px;

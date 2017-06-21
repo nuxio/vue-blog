@@ -1,4 +1,13 @@
-import { RECEIVE_COMMENT_LIST, COMMENT_VOTE_UP, COMMENT_VOTE_DOWN, COMMENT_DELETE } from '../mutation-types';
+import { 
+    RECEIVE_COMMENT_LIST, 
+    COMMENT_VOTE_UP, 
+    COMMENT_VOTE_DOWN, 
+    COMMENT_DELETE, 
+    COMMENT_MOUSEOVER, 
+    COMMENT_MOUSELEAVE,
+    COMMENT_SHOW_REPLY,
+    COMMENT_HIDE_REPLY
+} from '../mutation-types';
 
 export default {
     state: {
@@ -10,6 +19,23 @@ export default {
         [RECEIVE_COMMENT_LIST] (state, payload) {
             state.count ++;
             state.id_map[payload.post_id] = payload.comments;
+        },
+        [COMMENT_MOUSEOVER] (state, payload) {
+            state.id_map[payload.post_id][payload.index].hover = true;
+            state.count ++;
+        },
+        [COMMENT_MOUSELEAVE] (state, payload) {
+            state.id_map[payload.post_id][payload.index].hover = false;
+            state.count ++;
+        },
+        [COMMENT_SHOW_REPLY] (state, payload) {
+            state.id_map[payload.post_id][payload.index].show_reply = true;
+            state.count ++;
+        },
+        [COMMENT_HIDE_REPLY] (state, payload) {
+            state.id_map[payload.post_id][payload.index].show_reply = false;
+            state.id_map[payload.post_id][payload.index].reply_content = '';
+            state.count ++;
         },
         [COMMENT_VOTE_UP] (state, payload) {
             state.count++;

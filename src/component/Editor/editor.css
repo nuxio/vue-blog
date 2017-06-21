@@ -33,6 +33,14 @@
     padding: 10px;
     background-color: #333;
     height: calc(100% - 55px);
+    position: relative;
+}
+.editor-placeholder {
+    position: absolute;
+    color: #fff;
+    top: 10px;
+    left: 13px;
+    opacity: 0.8;
 }
 .editor-input {
     resize: none;

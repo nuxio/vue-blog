@@ -15,15 +15,15 @@
                         发布于{{create_time}} &nbsp;
                     </span>
                     <span>
-                        <i class="fa fa-eye" aria-hidden="true"></i> ({{post.visit}}) &nbsp;
+                        <i class="fa fa-eye" aria-hidden="true"></i> 浏览量（{{post.visit}}） &nbsp;
                     </span>
-                    <a href="javascript:;" @click="vote" :style="{color: is_voted ? '#dd4b39' : 'inherit'}">
+                    <button type="button" class="btn-normal" @click="vote" :style="{color: is_voted ? '#dd4b39' : 'inherit'}">
                         <i 
                             :class="['fa', is_voted ? 'fa-thumbs-up' : 'fa-thumbs-o-up']" 
                             aria-hidden="true"
                         ></i>
-                        ({{post.up}})
-                    </a>
+                        赞（{{post.up}}）
+                    </button>
                     <template v-if="is_login">
                         <router-link 
                             :to="`/create/${post._id}`" 
@@ -31,7 +31,7 @@
                             class="post-edit-btn"
                             v-if="post.author.username === user_info.username"
                         >
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            <i class="fa fa-pencil" aria-hidden="true"></i> 编辑
                         </router-link>
                         <a 
                             href="javascript:;" 
@@ -40,7 +40,7 @@
                             @click="deletePost" 
                             v-if="post.author.username === user_info.username"
                         >
-                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            <i class="fa fa-trash-o" aria-hidden="true"></i> 删除
                         </a>
                     </template>
                 </div>
@@ -165,8 +165,12 @@
 }
 .post-content {
     padding: 10px;
-    border-top: 1px solid #e5e5e5;
-    border-bottom: 1px solid #e5e5e5;
+    border: 1px solid #e7eaf2;
+    box-shadow: 0 1px 3px 0 rgba(0,33,77,.05);
+    background: #fff;
+    margin-top: 12px;
+    overflow: visible;
+    border-radius: 4px;
 }
 .post-edit-btn, .post-delete-btn {
     padding: 0 5px;

@@ -12,11 +12,14 @@
     width: 100%;
     background-color: #000;
     opacity: 0.5;
+    top: 0;
+    left: 0;
 }
 .modal-dialog {
     background: #fff;
     position: absolute; 
     margin: 0px;
+    z-index: 200;
 }
 .modal-header {
     padding: 10px;

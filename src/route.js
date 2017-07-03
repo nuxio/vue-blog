@@ -58,6 +58,13 @@ const Create = () => {
     return imp;
 };
 
+const Test = () => {
+    NProgress.start();
+    let imp = import('./container/Test.vue');
+    imp.then(c => NProgress.done());
+    return imp;
+};
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -72,7 +79,8 @@ const routes = [
             { path: '/create/:post_id', component: Create },
             { path: '/post/:post_id', component: PostDetail },
             { path: '/user/:username', component: User },
-            { path: '/user/:username/edit', component: EditUser }
+            { path: '/user/:username/edit', component: EditUser },
+            { path: '/test', component: Test }
         ]
     }
 ];

@@ -21,6 +21,7 @@
                     <router-link class="user-name" to="/login">登录</router-link>
                     <router-link class="user-name" to="/register">注册</router-link>
                 </template>
+                <router-link class="user-name" to="/test">测试页</router-link>
             </div>
         </nav>
     </header>

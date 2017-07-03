@@ -19,9 +19,22 @@
                     </p>
                 </div>
             </div>
+            <template v-if="drafts.length">
+                <h2>草稿列表</h2>
+                <div class="user-draft-list">
+                    <ul>
+                        <li v-for="(draft, key) in drafts" :key="key" v-if="key != 'length'">
+                            <span v-text="key"></span>
+                            <span>标题：<b>{{draft.title}}</b></span>
+                            <span>最近保存于：{{new Date(draft.save_time).toLocaleString()}}</span>
+                            <router-link :to="`/create/${key}`">编辑</router-link>
+                        </li>
+                    </ul>
+                </div>
+            </template>
             <h2>博客列表</h2>
             <div class="user-post-list" v-if="user._id">
-                <post-list :author="user._id" />
+                <post-list :author="user._id"></post-list>
             </div>
         </div>
     </div>
@@ -35,7 +48,10 @@
         components: { PostList },
         data() {
             return {
-                username: ''
+                username: '',
+                drafts: {
+                    length: 0
+                }
             };
         },
         computed: {
@@ -50,18 +66,29 @@
         methods: {
             ...mapActions(['requestUserInfo']),
             setUserData() {
-                if(!this.user.username) {
-                    this.requestUserInfo({username: this.username});
-                }
+                this.requestUserInfo({username: this.username});
+            },
+            setDraft(vm, to) {
+                let name = `DRAFTS_OF_${to.params.username}`;
+                let drafts = JSON.parse(window.localStorage.getItem(name)) || {};
+                drafts.length = Object.keys(drafts).length;
+                vm.$set(vm, 'drafts', drafts);
             }
         },
         mounted() {
             this.username = this.$route.params.username;
             this.setUserData();
         },
+        beforeRouteEnter(to, from, next) {
+            next(vm => {
+                vm.setDraft(vm, to);
+            });
+        },
         beforeRouteUpdate(to, from, next) {
             this.username = to.params.username;
+            this.setDraft(this, to);
             this.setUserData();
+            next();
         }
     }
 </script>
@@ -84,5 +111,16 @@
     border-radius: 50%;
     background-color: #eee;
     overflow: hidden;
+}
+.user-draft-list {
+    border: 1px solid #e7eaf2;
+    box-shadow: 0 1px 3px 0 rgba(0,33,77,.05);
+    background: #fff;
+    overflow: visible;
+    border-radius: 4px;
+    padding: 0 20px;
+}
+.user-draft-list ul li {
+    margin: 10px 0;
 }
 </style>

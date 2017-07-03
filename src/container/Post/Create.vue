@@ -11,7 +11,8 @@
                 <editor 
                     v-model="content"
                     height="350px"
-                    :width="editor_width"
+                    :width="editor_width" 
+                    @save-draft="saveDraft"
                 ></editor>
             </fieldset>
             <fieldset class="edit-form-field">
@@ -27,6 +28,7 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex';
     import Editor from '../../component/Editor';
     import Toast from '../../component/Toast';
     import Dialog from '../../component/Dialog';
@@ -42,10 +44,30 @@
                 content: '',
                 tags: '',
                 post_id: '',
-                client_width: 0
+                client_width: 0,
+                /**
+                 * 草稿版本名称
+                 * 草稿保存在localStorage，数据结构如下：
+                 * 'DRAFTS_OF_' + username: {
+                 *    'DRAFT_' + Math.random() : {
+                 *        title: 'xxx',
+                 *        content: 'xxx',
+                 *        tags: 'xxx',
+                 *        save_time: 'xxx'
+                 *    }
+                 * }
+                 * 编辑器初始化时初始化草稿名称
+                 * 如果编辑的就是草稿，则沿用草稿名称
+                 * 点击保存的时候删除草稿
+                 **/
+                draft_name: '',
+                draft_id: ''
             };
         },
         computed: {
+            ...mapState({
+                username: (state) => state.user.user_info.username
+            }),
             editor_width() {
                 return this.client_width > 768 ? '75%' : '100%';
             }
@@ -83,6 +105,7 @@
 
                     if(json.msg === 'ok') {
                         this.$toast.success('发布成功');
+                        this.draft_id && this.deleteDraft();
                         this.$router.push(`/post/${json.blog_id}`);
                     } else {
                         this.$alert(json.msg);
@@ -105,15 +128,53 @@
                 window.onresize = () => {
                     this.client_width = document.body.clientWidth;
                 }
+            },
+            getDraft() {
+                let drafts = JSON.parse(window.localStorage.getItem(this.draft_name));
+                if(drafts && drafts[this.draft_id]) {
+                    let draft = drafts[this.draft_id];
+                    this.title = draft.title;
+                    this.content = draft.content;
+                    this.tags = draft.tags;
+                } else {
+                    console.log(1);
+                    this.$alert('不存在的草稿哦~');
+                }
+            },
+            saveDraft() {
+                if(!this.username) return false;
+                let drafts = JSON.parse(window.localStorage.getItem(this.draft_name)) || {};
+                this.draft_id = this.draft_id || 'DRAFT_' + parseInt(Math.random() * 10000000, 10);
+                drafts[this.draft_id] = {
+                    title: this.title,
+                    content: this.content,
+                    tags: this.tags,
+                    save_time: new Date().getTime()
+                };
+                
+                window.localStorage.setItem(this.draft_name, JSON.stringify(drafts));
+                this.$toast.success('草稿已保存');
+            },
+            deleteDraft() {
+                let drafts = JSON.parse(window.localStorage.getItem(this.draft_name)) || {};
+                delete drafts[this.draft_id];
+                window.localStorage.setItem(this.draft_name, JSON.stringify(drafts));
             }
         },
         mounted() {
-            this.post_id = this.$route.params.post_id;
-            if(this.post_id) {
-                this.getEditPost();
-            }
+            let id = this.$route.params.post_id;
+
+            this.draft_name = `DRAFTS_OF_${this.username}`;
             this.client_width = document.body.clientWidth;
             this.setEditorWidth();
+
+            if(id && id.indexOf('DRAFT_') > -1) {
+                this.draft_id = id;
+                this.getDraft();
+            } else if(id) {
+                this.post_id = id;
+                this.getEditPost();
+            }
         }
     }
 </script>

@@ -68,13 +68,13 @@
                 expanded: false,
                 view: false,
                 content: '',
-                content_preview: ''
+                content_preview: '',
+                inner_draft_name: ''
             };
         },
         computed: {
             box_style_object() {
-                return this.expanded 
-                    ? 
+                return this.expanded ? 
                     {
                         display: 'block',
                         position: 'fixed',
@@ -124,6 +124,11 @@
                     this.insertContent('    ');
                     return false;
                 }
+                // ctrl+s 保存草稿
+                if(e.ctrlKey && e.keyCode === 83) {
+                    e.preventDefault();
+                    this.$emit('save-draft');
+                }
             },
             expand() {
                 this.expanded = !this.expanded;
@@ -157,7 +162,7 @@
                     }
                     this.$refs.upload.value = '';
                 });
-            },
+            }
         }
     }
 </script>

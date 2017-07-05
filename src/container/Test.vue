@@ -11,14 +11,11 @@
         >
         Upload
     </div>
-    <div class="previewer text-center" v-else>
-        <img :src="preview_src" ref="preview_img" :style="crop_image_style" />
-    </div>
-    <canvas ref="preview_canvas" height="100" width="100"></canvas>
+    <canvas ref="preview_canvas" height="100" width="100" v-else></canvas>
     <div class="modal-wrap" v-show="show_cropper_modal">
         <div class="modal-backdrop"></div>
         <div class="cropper-modal">
-            <div class="cropper-container" @mousemove="drag">
+            <div class="cropper-container" @mousemove="drag" @mouseleave="endDrag" :style="container_style">
                 <button type="button" @click="closeCropperModal" class="cropper-modal-close">
                     <i class="fa fa-times" aria-hidden="true"></i>
                 </button>
@@ -43,9 +40,18 @@
 </template>
 
 <script>
+
+// 裁剪框的最小高度，图片小于这个尺寸则默认覆盖整张图片
+const CROP_INIT_WIDTH = 100;
+const CROP_INIT_HEIGHT = 100;
+
 export default {
     data() {
         return {
+            // 距离上次move事件的毫秒数
+            last_call: 0,
+            // 至少过这么多毫秒才再次调用，节流
+            throttle: 50,
             dragenter: false,
             preview_src: '',
             src: '',
@@ -59,8 +65,8 @@ export default {
             crop: {
                 height: 100,
                 width: 100,
-                top: 125,
-                left: 125,
+                top: 0,
+                left: 0,
                 // 被鼠标点击的时候，左上角与鼠标点击位置的距离
                 mouse_x: 0,
                 mouse_y: 0
@@ -73,6 +79,12 @@ export default {
         };
     },
     computed: {
+        container_style() {
+            return {
+                height: this.image.height + 'px',
+                width: this.image.width + 'px'
+            }
+        },
         cropper_image_style() {
             return {
                 height: this.image.height + 'px',
@@ -114,13 +126,27 @@ export default {
         handleDrop(e) {
             this.dragenter = false;
             let file = e.dataTransfer.files[0];
+            let name = file.name;
+            if(!name.match(/.*\.(jpg|png|gif|jpeg)$/)) {
+                this.$toast.error('请选择图片');
+                return false;
+            }
             let reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = (e) => {
                 this.preview_src = this.src = e.target.result;
                 this.$refs.origin_image.onload = () => {
-                    this.image.height = this.$refs.origin_image.naturalHeight;
-                    this.image.width = this.$refs.origin_image.naturalWidth;
+                    let nh = this.$refs.origin_image.naturalHeight;
+                    let nw = this.$refs.origin_image.naturalWidth;
+
+                    this.image.height = nh;
+                    this.image.width = nw;
+                    this.crop.width = nh < CROP_INIT_HEIGHT ? nh : CROP_INIT_HEIGHT;
+                    this.crop.height = nw < CROP_INIT_WIDTH ? nw : CROP_INIT_WIDTH;
+                    this.crop.top = nh < CROP_INIT_HEIGHT ? 0 : ((nh - CROP_INIT_HEIGHT) / 2);
+                    this.crop.left = nw < CROP_INIT_WIDTH ? 0 : ((nw - CROP_INIT_WIDTH) / 2);
+
+                    this.doCropAndPreview();
                 };
                 this.show_cropper_modal = true;
             };
@@ -139,14 +165,35 @@ export default {
             this.crop_ctrl_pos = '';
         },
         drag(e) {
+            if(!this.crop_mouse_down && !this.crop_ctrl_pos) return false;
+
+            let now = new Date().getTime();
+            if(now - this.last_call < this.throttle) return false;
+            this.last_call = now;
+
             if(this.crop_mouse_down) {
-                this.crop.top = e.offsetY - this.crop.mouse_y < 0 ? 0 : e.offsetY - this.crop.mouse_y;
-                this.crop.left = e.offsetX - this.crop.mouse_x < 0 ? 0 : e.offsetX - this.crop.mouse_x;
+                let move_y = e.offsetY - this.crop.mouse_y;
+                let move_x = e.offsetX - this.crop.mouse_x;
+                let max_y = this.image.height - this.crop.height;
+                let max_x = this.image.width - this.crop.width;
+
+                this.crop.top = move_y < 0 ? 0 : (move_y > max_y ? max_y :move_y);
+                this.crop.left = move_x < 0 ? 0 : (move_x > max_x ? max_x :move_x);
+                this.doCropAndPreview();
             }
             if(this.crop_ctrl_pos) {
+                let move_y = e.offsetY - this.crop.top;
+                let move_x = e.offsetX - this.crop.left;
+                let max = Math.max(move_x, move_y);
+                max = max < 0 ? 0 : max;
+                this.crop.width = this.crop.height = max;
+
                 if(this.crop_ctrl_pos === 'es') {
-                    this.crop.height = e.offsetY - this.crop.top;
-                    this.crop.width = e.offsetX - this.crop.left;
+                    this.doCropAndPreview();
+                }
+                if(this.crop_ctrl_pos === 'en') {
+                    this.crop.top = e.offsetY;
+                    this.doCropAndPreview();
                 }
             }
         },
@@ -158,7 +205,8 @@ export default {
         doCropAndPreview() {
             let ctx = this.$refs.preview_canvas.getContext('2d');
             ctx.clearRect(0, 0, 100, 100);
-            ctx.drawImage(this.$refs.preview_img, 0, 0, 100, 100, this.crop.left, this.crop.top, this.crop.width, this.crop.height);
+            // ctx.drawImage(source, source_x, scource_y, source_width, source_height, dest_x, dest_y, dest_width, dest_height)
+            ctx.drawImage(this.$refs.origin_image, this.crop.left, this.crop.top, this.crop.width, this.crop.height, 0, 0, 100, 100);
         }
     },
     mounted() {
@@ -175,16 +223,12 @@ export default {
     background-color: #fff;
     border-radius: 10px;
 }
-.drag-target, .previewer {
+.drag-target {
     position: relative;
     overflow: hidden;
     width: 100px;
     height: 100px;
     line-height: 100px;
-}
-.previewer img {
-    display: block;
-    position: absolute;
 }
 .cropper-modal {
     z-index: 300;
@@ -202,8 +246,8 @@ export default {
 }
 .cropper-modal-close {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 0px;
+    right: -25px;
     color: #fff;
     border: 0;
     padding: 0;
@@ -265,8 +309,8 @@ export default {
 }
 .cropper-op-bar {
     position: absolute;
-    bottom: 10px;
-    left: 10px;
+    bottom: -30px;
+    left: 0px;
 }
 .cropper-op-bar >span {
     cursor: pointer;
